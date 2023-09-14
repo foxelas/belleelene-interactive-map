@@ -20,8 +20,6 @@ html {
     color: var(--primary);
     text-align: center;
     font-family: "Roboto", Helvetica, sans-serif;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
   }
   
   body {
@@ -29,6 +27,8 @@ html {
     margin: 20px auto;
     padding: 0 100px;
     overflow-x: hidden;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
   }
 
   .description {
