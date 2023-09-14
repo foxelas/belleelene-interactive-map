@@ -203,6 +203,9 @@ html {
       overflow-x: hidden;
     }
 
+    .distribution-map .map-point:active .content a:hover, .distribution-map .map-point:active .content a:active, .distribution-map .map-point:focus .content a:hover, .distribution-map .map-point:focus .content a:active {
+      color: none;
+    }
 
     h1 {
         font-size: 18pt;
