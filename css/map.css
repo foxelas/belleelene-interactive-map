@@ -154,6 +154,7 @@ html {
     left: 50%;
     transform: translateX(-50%);
     overflow: overlay;
+    touch-action: manipulation;
   }
   .distribution-map .map-point:active, .distribution-map .map-point:focus {
     margin: 0;
