@@ -21,7 +21,6 @@ html {
     text-align: center;
     font-family: "Roboto", Helvetica, sans-serif;
     -ms-touch-action: manipulation;
-    touch-action: manipulation;
   }
   
   body {
@@ -29,7 +28,6 @@ html {
     margin: 20px auto;
     padding: 0 100px;
     overflow-x: hidden;
-    touch-action: manipulation;
   }
 
   .description {
@@ -120,8 +118,6 @@ html {
     padding: 20px;
     box-sizing: border-box;
     margin: 0 auto;
-    touch-action: manipulation;
-    touch-action: manipulation;
   }
   .distribution-map > img {
     width: 100%;
