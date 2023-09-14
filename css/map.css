@@ -20,6 +20,8 @@ html {
     color: var(--primary);
     text-align: center;
     font-family: "Roboto", Helvetica, sans-serif;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
   }
   
   body {
@@ -220,6 +222,7 @@ html {
       h6 {
         font-size: 12pt;
       }
+
 }
 
 
