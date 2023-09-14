@@ -91,6 +91,7 @@ html {
     text-transform: uppercase;
     text-decoration: none;
     color: var(--link);
+    touch-action: manipulation;
   }
   a:visited {
     color: var(--link);
@@ -120,6 +121,7 @@ html {
     box-sizing: border-box;
     margin: 0 auto;
     touch-action: manipulation;
+    touch-action: manipulation;
   }
   .distribution-map > img {
     width: 100%;
@@ -145,6 +147,7 @@ html {
     transition: opacity 0.25s ease-in-out 0.25s, width 0.25s ease-in-out 0.25s, height 0.25s ease-in-out 0.25s, z-index 0.25s ease-in-out 0.25s;
     background: var(--background-dark);
     border: 5px solid var(--primary);
+    touch-action: manipulation;
   }
   .distribution-map .map-point .content {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
