@@ -143,6 +143,8 @@ html {
     transition: opacity 0.25s ease-in-out 0.25s, width 0.25s ease-in-out 0.25s, height 0.25s ease-in-out 0.25s, z-index 0.25s ease-in-out 0.25s;
     background: var(--background-dark);
     border: 5px solid var(--primary);
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
   }
   .distribution-map .map-point .content {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
@@ -153,6 +155,8 @@ html {
     left: 50%;
     transform: translateX(-50%);
     overflow: overlay;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
   }
   .distribution-map .map-point:active, .distribution-map .map-point:focus {
     margin: 0;
