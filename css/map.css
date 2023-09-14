@@ -28,7 +28,7 @@ html {
     padding: 0 100px;
     overflow-x: hidden;
   }
-  
+
   .description {
     max-width: 600px;
     margin: 0 auto;
@@ -177,3 +177,51 @@ html {
     color: var(--secondary-dark);
   }
   
+
+  /* Adjust the size of map points for smaller screens */
+@media screen and (max-width: 768px) {
+    .distribution-map .map-point {
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+    }
+    .distribution-map .map-point .content {
+        width: 200px;
+    }
+
+    body {
+      max-width: 1200px;
+      margin: 2% auto;
+      padding: 0 2%;
+      overflow-x: hidden;
+    }
+
+
+    h1 {
+        font-size: 18pt;
+      }
+      
+      h2 {
+        font-size: 16pt;
+      }
+      
+      h3 {
+        font-size: 14pt;
+      }
+      
+      h4 {
+        font-size: 12pt;
+      }
+      
+      h5 {
+        font-size: 12pt;
+      }
+      
+      h6 {
+        font-size: 12pt;
+      }
+}
+
+
+
+
