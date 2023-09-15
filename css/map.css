@@ -87,7 +87,7 @@ html {
   a {
     transition: color 0.25s ease-in-out;
     font-family: "Roboto Condensed", Helvetica, sans-serif;
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-decoration: none;
     color: var(--link);
   }
