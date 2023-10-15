@@ -1,16 +1,17 @@
 
 :root {
-    --primary: #e85ee6;
-    --primary-light: #caa2ca;
-    --primary-dark:rgba(69, 5, 69, 0.7);
+    --primary: #EF959C;
+    --primary-light: #DBC7BE;
+    --primary-dark:#CBB3BF;
 
-    --secondary: #7fcff7;
+    --secondary: #95ADB6;
     --secondary-light: #e5e5e5;
-    --secondary-dark:#afe1fa;
+    --secondary-dark:#8DA1B9;
 
-    --link: #dff3fd;
+    --link: #EF959C;
 
     --background: #ffffff;
+    --background-dark: #4b4a4b;
   }
 
 
@@ -26,8 +27,10 @@ html {
     margin: 20px auto;
     padding: 0 100px;
     overflow-x: hidden;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
   }
-  
+
   .description {
     max-width: 600px;
     margin: 0 auto;
@@ -84,7 +87,7 @@ html {
   a {
     transition: color 0.25s ease-in-out;
     font-family: "Roboto Condensed", Helvetica, sans-serif;
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-decoration: none;
     color: var(--link);
   }
@@ -138,8 +141,10 @@ html {
     -webkit-transition: opacity 0.25s ease-in-out, width 0.25s ease-in-out, height 0.25s ease-in-out, z-index 0.25s ease-in-out;
     -webkit-transition-delay: 0.25s, 0.25s, 0.25s, 0.25s;
     transition: opacity 0.25s ease-in-out 0.25s, width 0.25s ease-in-out 0.25s, height 0.25s ease-in-out 0.25s, z-index 0.25s ease-in-out 0.25s;
-    background: rgba(26, 26, 26, 0.85);
-    border: 5px solid var(--secondary);
+    background: var(--background-dark);
+    border: 5px solid var(--primary);
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
   }
   .distribution-map .map-point .content {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
@@ -150,6 +155,8 @@ html {
     left: 50%;
     transform: translateX(-50%);
     overflow: overlay;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
   }
   .distribution-map .map-point:active, .distribution-map .map-point:focus {
     margin: 0;
@@ -173,6 +180,58 @@ html {
     overflow: hidden;
   }
   .distribution-map .map-point:active .content a:hover, .distribution-map .map-point:active .content a:active, .distribution-map .map-point:focus .content a:hover, .distribution-map .map-point:focus .content a:active {
-    color: var(--secondary-light);
+    color: var(--secondary-dark);
   }
   
+
+  /* Adjust the size of map points for smaller screens */
+@media screen and (max-width: 768px) {
+    .distribution-map .map-point {
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+    }
+    .distribution-map .map-point .content {
+        width: 200px;
+    }
+
+    body {
+      max-width: 1200px;
+      margin: 2% auto;
+      padding: 0 2%;
+      overflow-x: hidden;
+    }
+
+    .distribution-map .map-point:active .content a:hover, .distribution-map .map-point:active .content a:active, .distribution-map .map-point:focus .content a:hover, .distribution-map .map-point:focus .content a:active {
+      color: none;
+    }
+
+    h1 {
+        font-size: 18pt;
+      }
+      
+      h2 {
+        font-size: 16pt;
+      }
+      
+      h3 {
+        font-size: 14pt;
+      }
+      
+      h4 {
+        font-size: 12pt;
+      }
+      
+      h5 {
+        font-size: 12pt;
+      }
+      
+      h6 {
+        font-size: 12pt;
+      }
+
+}
+
+
+
+
