@@ -145,5 +145,13 @@
     
 </div>
 
+<script>
+  document.querySelectorAll('.map-point').forEach(btn => {
+    btn.addEventListener('click', e => e.currentTarget.focus());
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.map-point')) document.activeElement?.blur();
+  });
+</script>
 
 </body>
