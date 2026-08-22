@@ -318,6 +318,8 @@
     if (japanBlogLayer) map.removeLayer(japanBlogLayer);
     setTerrain(next === "terrain");
 
+    // Mountains & Islands open on the current (latest) year; Countries on "All"
+    year = (next === "mountains" || next === "islands") ? maxYear : ALL;
     configureSlider(next);
     if (next === "mountains") buildMarkers("mountains");
     if (next === "islands") buildMarkers("islands");
