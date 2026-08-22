@@ -91,6 +91,7 @@ const TRAVELS = {
     { name: "The Alps · Bishorn",             coords: [46.5000, 8.0000],  elevation: 4151, country: "Switzerland", years: [2025],                   url: "https://belleelene.com/2025/09/04/bishorn/" },
     { name: "The Tatras",           coords: [49.1795, 20.0880], elevation: 2655, country: "Poland",      years: [2025],                   url: "https://belleelene.com/2025/10/16/tatras/" },
     { name: "Arthur's Seat",        coords: [55.9442, -3.1618], elevation: 251,  country: "Scotland",    years: [2026],                   url: "https://belleelene.com/2026/06/26/arthurs-seat/" },
+    { name: "Kebnekaise · Kungsleden", coords: [67.9010, 18.5127], elevation: 2096, country: "Sweden",   years: [2026],                   url: "" },
     { name: "Mt Fuji",              coords: [35.3606, 138.7274], elevation: 3776, country: "Japan",     years: [2017, 2022],
       links: { 2017: "https://belleelene.com/2017/09/03/thoughts-on-climbing-mt-fuji/",
                2022: "https://belleelene.com/2022/09/15/fuji/" } },
