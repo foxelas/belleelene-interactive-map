@@ -347,16 +347,38 @@ footer.foot a { color: var(--deep); text-decoration: none; font-weight: 600; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 720px) {
-  .console-head { gap: 10px; }
+  .wrap { padding: 0 14px; }
+
+  /* header */
+  header.top { gap: 12px; padding: 20px 0 10px; }
+  .logo { width: 46px; height: 46px; }
+  .brand h1 { font-size: 26px; }
+  .brand .tag { font-size: 12.5px; }
+  .site-link { display: none; }
+
+  /* tabs — text-only pills so all four fit in one row */
+  .console-head { gap: 10px; padding: 12px 12px; }
+  .tabs { width: 100%; justify-content: space-between; gap: 2px; padding: 3px; }
+  .tab { flex: 1 1 0; min-width: 0; justify-content: center; gap: 0;
+    padding: 8px 4px; font-size: 12.5px; letter-spacing: -.01em; }
+  .tab svg { display: none; }
   .stats { margin-left: 0; text-align: left; width: 100%; order: 3; }
   .stats .big { font-size: 22px; }
-  .tabs { width: 100%; justify-content: space-between; }
-  .tab { flex: 1; justify-content: center; padding: 9px 6px; }
+
+  /* map + panels */
   .cards { grid-template-columns: 1fr; }
-  #map { height: 54vh; }
-  .year-list { width: 148px; left: 10px; top: 10px; max-height: calc(100% - 80px); }
+  #map { height: 56vh; }
+  .year-list { width: 144px; left: 10px; top: 10px; max-height: calc(100% - 80px); }
   .yl-head { font-size: 17px; padding: 9px 11px 7px; }
   .yl-row { font-size: 12px; padding: 5px 7px; }
-  .slider { padding: 20px 14px 24px; }
-  .ticks button { font-size: 7px; padding: 2px 0; letter-spacing: -.04em; }
+  .slider { padding: 18px 12px 22px; }
+  .ticks button { font-size: 10px; padding: 2px 0; letter-spacing: 0; }
+  .ticks button.minor { font-size: 0; min-width: 4px; padding: 0; }
+
+  footer.foot { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+
+@media (max-width: 380px) {
+  .tab { font-size: 11.5px; padding: 8px 2px; }
+  .brand h1 { font-size: 23px; }
 }

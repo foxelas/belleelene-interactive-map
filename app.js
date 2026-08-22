@@ -402,14 +402,16 @@
     const present = new Set(yearsForTab(t));
     const ys = [...present].sort((a, b) => a - b);
     const lo = ys.length ? ys[0] : minYear;
+    const step = Math.max(1, Math.ceil((maxYear - lo) / 6)); // ~6 labels shown on mobile
     for (let y = lo; y <= maxYear; y++) {
       const b = document.createElement("button");
       b.textContent = y; b.title = y; b.dataset.v = y;
       if (present.has(y)) {
         b.addEventListener("click", () => { year = y; paint(); frameCurrent(); });
       } else {
-        b.className = "off";
+        b.classList.add("off");
       }
+      if ((y - lo) % step !== 0 && y !== maxYear) b.classList.add("minor");
       ticks.appendChild(b);
     }
     const all = document.createElement("button");
