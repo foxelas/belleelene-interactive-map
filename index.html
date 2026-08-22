@@ -6,7 +6,7 @@
   <title>belleelene · a map of my wanderings</title>
   <meta name="description" content="An interactive map of the countries, mountains and islands I've travelled — year by year." />
 
-  <link rel="icon" href="logo.png" />
+  <link rel="icon" href="icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -16,7 +16,6 @@
 </head>
 <body>
 
-  <!-- hidden brand gradient, referenced by countries + markers -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <linearGradient id="foxGrad" x1="0" y1="0" x2="1" y2="1">
@@ -24,12 +23,15 @@
         <stop offset="52%" stop-color="#9db4f0" />
         <stop offset="100%" stop-color="#c4b0e8" />
       </linearGradient>
+      <linearGradient id="homeGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"  stop-color="#f8d976" />
+        <stop offset="100%" stop-color="#eaa64c" />
+      </linearGradient>
     </defs>
   </svg>
 
   <div class="wrap">
 
-    <!-- ── header ─────────────────────────────────────────────── -->
     <header class="top">
       <img class="logo" src="logo.png" alt="belleelene fox logo" />
       <div class="brand">
@@ -40,7 +42,6 @@
       <a class="site-link" href="https://belleelene.com/" target="_blank" rel="noopener">belleelene.com ↗</a>
     </header>
 
-    <!-- ── interactive console ───────────────────────────────── -->
     <section class="console" aria-label="Interactive travel map">
       <div class="console-head">
         <div class="tabs" role="tablist" aria-label="Choose a map">
@@ -56,6 +57,10 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3c3 3 3 7 0 9-3-2-3-6 0-9Z"/><path d="M3 17c1.5 1.5 3 1.5 4.5 0S10.5 15.5 12 17s3 1.5 4.5 0S19.5 15.5 21 17"/><path d="M3 21c1.5 1.5 3 1.5 4.5 0S10.5 19.5 12 21s3 1.5 4.5 0S19.5 19.5 21 21"/></svg>
             Islands
           </button>
+          <button class="tab" role="tab" data-tab="japanblog" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M6 5v15M18 5v15M4 20h16M9 9h6M9 13h6"/></svg>
+            Japan blog
+          </button>
         </div>
         <div class="stats" aria-live="polite">
           <div class="big" id="statBig">—</div>
@@ -65,10 +70,11 @@
 
       <div class="map-shell">
         <div id="map"></div>
+        <div class="year-list" id="yearList"></div>
+        <div class="year-list themes" id="themes"></div>
         <div class="legend" id="legend"></div>
       </div>
 
-      <!-- year slider -->
       <div class="slider">
         <div class="slider-top">
           <div class="year-now all" id="yearNow"><em>All years</em></div>
@@ -80,27 +86,28 @@
       </div>
     </section>
 
-    <!-- ── deep-dive cards ───────────────────────────────────── -->
-    <h2 class="section-title">Go deeper</h2>
-    <p class="section-sub">Two hand-built maps with every trail and post, straight from the blog.</p>
+    <h2 class="section-title">More from Japan</h2>
     <div class="cards">
-      <a class="card" href="https://foxelas.github.io/belleelene-interactive-map/hiking" target="_blank" rel="noopener">
-        <div class="emoji">🥾</div>
-        <div class="kicker">Greece</div>
-        <h3>The Hiking Map</h3>
-        <p>Every trail I've walked across the Peloponnese, Pindus, Crete and beyond — pinned to a topographic map.</p>
-        <span class="go">Open the hiking map →</span>
+      <a class="card" href="https://www.google.com/maps/d/viewer?mid=1NTi-fD3IQrFvc43EskQvIIH0VhAumBef" target="_blank" rel="noopener">
+        <div class="emoji">📍</div>
+        <h3>Recommended Places</h3>
+        <p>A hand-picked map of belleelene’s favourite spots to visit, eat and wander across Japan.</p>
+        <span class="go">Open the recommendations →</span>
       </a>
-      <a class="card" href="https://foxelas.github.io/belleelene-interactive-map/" target="_blank" rel="noopener">
-        <div class="emoji">⛩️</div>
-        <div class="kicker">Japan</div>
-        <h3>The Japan Blog Map</h3>
-        <p>Festivals, onsen, goshuin and hikes — mapped prefecture by prefecture, from Hokkaido to Okinawa.</p>
-        <span class="go">Open the Japan map →</span>
+      <a class="card" href="https://belleelene.com/about/a-log-of-my-visits-using-goshuin-stamps/" target="_blank" rel="noopener">
+        <div class="emoji">🖌️</div>
+        <h3>Goshuin Collection</h3>
+        <p>A growing log of goshuin — the calligraphic shrine &amp; temple stamps gathered along the way.</p>
+        <span class="go">See the collection →</span>
+      </a>
+      <a class="card" href="https://zhung.com.tw/japanex/?t=5Y6M#15345440000044344400044044400441144334444400004" target="_blank" rel="noopener">
+        <div class="emoji">🗾</div>
+        <h3>Japan Status</h3>
+        <p>Every Japanese prefecture I’ve set foot in, coloured in on the japanex tracker.</p>
+        <span class="go">View the prefecture map →</span>
       </a>
     </div>
 
-    <!-- ── footer ────────────────────────────────────────────── -->
     <footer class="foot">
       <span>Built by <a href="https://belleelene.com/" target="_blank" rel="noopener">belleelene</a>.</span>
     </footer>
