@@ -80,7 +80,7 @@ const TRAVELS = {
     { name: "Zireia",               coords: [37.9333, 22.4167], elevation: 2376, country: "Greece",      years: [2024],                   url: "https://belleelene.com/2024/03/29/ziria/" },
     { name: "Vardousia",            coords: [38.6839, 22.2381], elevation: 2495, country: "Greece",      years: [2025],                   url: "https://belleelene.com/2025/04/30/vardousia/" },
     { name: "Erymanthos",           coords: [37.9667, 21.8333], elevation: 2224, country: "Greece",      years: [2025],                   url: "https://belleelene.com/2025/06/05/erymanthus/" },
-    { name: "Gkiona",               coords: [38.6333, 22.2833], elevation: 2510, country: "Greece",      years: [2025, 2026],
+    { name: "Giona",               coords: [38.6333, 22.2833], elevation: 2510, country: "Greece",      years: [2025, 2026],
       links: { 2025: "https://belleelene.com/2025/08/17/giona/", 2026: "https://belleelene.com/2026/04/25/giona-winter/" } },
     { name: "Varasova",             coords: [38.3500, 21.4667], elevation: 917,  country: "Greece",      years: [2025],                   url: "" },
     { name: "Ymittos",              coords: [37.9439, 23.8036], elevation: 1026, country: "Greece",      years: [2026],                   url: "" },
