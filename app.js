@@ -13,7 +13,7 @@
   const countryIndex = {};
   TRAVELS.countries.forEach((c) => {
     const key = norm(canonicalCountry(c.name));
-    countryIndex[key] = { years: c.years || [], url: c.url || "", links: c.links || null, home: !!c.home, label: c.name };
+    countryIndex[key] = { years: c.years || [], url: c.url || "", links: c.links || null, home: !!c.home, tag: c.tag || null, label: c.name };
   });
 
   const allYears = new Set();
@@ -72,36 +72,28 @@
     if (item.links) return item.links[year] || "";
     return item.url || "";
   }
-  function allYearLinks(item) {
-    const out = [];
-    if (item && item.links) {
-      Object.keys(item.links).forEach((y) => { if (item.links[y]) out.push({ year: +y, url: item.links[y] }); });
-    } else if (item && item.url) {
-      out.push({ year: null, url: item.url });
-    }
-    return out.sort((a, b) => (a.year || 0) - (b.year || 0));
+  function anyLink(item) {
+    return !!(item && (item.url || (item.links && Object.values(item.links).some(Boolean))));
+  }
+  // The place's belleelene tag page (all its articles). `tag` overrides the slug.
+  function slugify(n) {
+    return String(n || "").toLowerCase().split("·")[0].trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+  function tagUrl(item) {
+    if (item.home && item.url) return item.url;            // home country → its category page
+    const t = item.tag;
+    if (t) return /^https?:/i.test(t) ? t : "https://belleelene.com/tag/" + t + "/";
+    return "https://belleelene.com/tag/" + slugify(item.name || item.label) + "/";
   }
   function clickable(item) {
-    return year === ALL ? allYearLinks(item).length > 0 : !!linkAtYear(item);
+    return year === ALL ? anyLink(item) : !!linkAtYear(item);
   }
 
-  function handleClick(item, latlng) {
-    if (year !== ALL) {
-      const url = linkAtYear(item);
-      if (url) window.open(url, "_blank", "noopener");
-      return;
-    }
-    const opts = allYearLinks(item);
-    if (opts.length === 0) return;
-    if (opts.length === 1) { window.open(opts[0].url, "_blank", "noopener"); return; }
-    const html = `<div class="chooser">` +
-      opts.map((o) => `<a href="${o.url}" target="_blank" rel="noopener">${o.year} &rarr;</a>`).join("") +
-      `</div>`;
-    // defer so the click that opened it doesn't also close it (closePopupOnClick)
-    setTimeout(() => {
-      L.popup({ className: "chooser-popup", closeButton: false, offset: [0, 2] })
-        .setLatLng(latlng).setContent(html).openOn(map);
-    }, 0);
+  // Specific year → that year's article. "All" → the place's tag page (it exists
+  // whenever there's at least one article). Home countries → their category page.
+  function handleClick(item) {
+    if (year !== ALL) { const u = linkAtYear(item); if (u) window.open(u, "_blank", "noopener"); return; }
+    if (anyLink(item)) window.open(tagUrl(item), "_blank", "noopener");
   }
 
   fetch("world.geojson")
