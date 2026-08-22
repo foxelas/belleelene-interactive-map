@@ -132,7 +132,7 @@ const TRAVELS = {
     { name: "Kea",         coords: [37.6167, 24.3333], country: "Greece", years: [2024, 2026], links: { 2024: "https://belleelene.com/2024/07/04/kea/", 2026: "https://belleelene.com/2026/04/30/one-day-in-kea/" } },
     { name: "Ikaria",      coords: [37.6000, 26.1667], country: "Greece", years: [2024, 2025], links: { 2024: "", 2025: "https://belleelene.com/2026/04/02/ikaria/" } },
     { name: "Kythira",     coords: [36.2333, 23.0000], country: "Greece", years: [2024],       url: "https://belleelene.com/2025/09/18/kythera/" },
-    { name: "Aegina",      coords: [37.7333, 23.4333], country: "Greece", years: [2024],       url: " https://belleelene.com/2024/06/20/aegina/" },
+    { name: "Aegina",      coords: [37.7333, 23.4333], country: "Greece", years: [2024],       url: "https://belleelene.com/2024/06/20/aegina/" },
     { name: "Sikinos",     coords: [36.6800, 25.1200], country: "Greece", years: [2025],       url: "https://belleelene.com/2025/05/22/sikinos/" },
     { name: "Syros",       coords: [37.4333, 24.9167], country: "Greece", years: [2025],       url: "" },
     { name: "Patmos",      coords: [37.3080, 26.5470], country: "Greece", years: [2025],       url: "" },
