@@ -86,7 +86,7 @@ const TRAVELS = {
     { name: "Ymittos",              coords: [37.9439, 23.8036], elevation: 1026, country: "Greece",      years: [2026],                   url: "" },
     { name: "Mainalo",              coords: [37.6333, 22.3000], elevation: 1981, country: "Greece",      years: [2026],                   url: "" },
     { name: "Gerania",              coords: [38.0333, 23.1667], elevation: 1370, country: "Greece",      years: [2026],                   url: "https://belleelene.com/2026/06/05/geraneia/" },
-    { name: "Kakardhitsa · Neraida",coords: [39.4667, 21.2333], elevation: 2429, country: "Greece",      years: [2026],                   url: "https://belleelene.com/2026/08/22/kakarditsa/" },
+    { name: "Kakarditsa · Neraida", coords: [39.4667, 21.2333], elevation: 2429, country: "Greece",      years: [2026],                   url: "https://belleelene.com/2026/08/22/kakarditsa/" },
     { name: "Pateras",              coords: [38.1000, 23.4500], elevation: 1132, country: "Greece",      years: [2026],                   url: "https://belleelene.com/2026/05/21/pateras/" },
     { name: "The Alps · Bishorn",             coords: [46.5000, 8.0000],  elevation: 4151, country: "Switzerland", years: [2025],                   url: "https://belleelene.com/2025/09/04/bishorn/" },
     { name: "The Tatras",           coords: [49.1795, 20.0880], elevation: 2655, country: "Poland",      years: [2025],                   url: "https://belleelene.com/2025/10/16/tatras/" },
