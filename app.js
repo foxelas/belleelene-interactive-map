@@ -41,12 +41,25 @@
     '<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> · Natural Earth'
   );
   map.zoomControl.setPosition("topright");
+  map.createPane("terrain");
+  map.getPane("terrain").style.zIndex = 250; // above the base, below the country outlines
   const WORLD = L.latLngBounds([[-58, -172], [80, 192]]);
   map.fitBounds(WORLD);
 
   let countriesLayer = null;
   const markerLayer = L.layerGroup();
   let currentMarkers = [];
+
+  const terrainLayer = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}", {
+    pane: "terrain", maxZoom: 13, opacity: 0.85, noWrap: true, className: "terrain-tiles",
+    bounds: [[-85.05, -180], [85.05, 180]],
+    attribution: "Shaded relief © Esri",
+  });
+  function setTerrain(on) {
+    if (on && !map.hasLayer(terrainLayer)) terrainLayer.addTo(map);
+    if (!on && map.hasLayer(terrainLayer)) map.removeLayer(terrainLayer);
+  }
 
   function tip(name, meta, hasUrl) {
     return `<div class="tt-name">${name}</div>` +
@@ -116,6 +129,7 @@
           }
         },
       }).addTo(map);
+      setTerrain(tab === "terrain");
       paint();
     })
     .catch((err) => {
@@ -184,8 +198,11 @@
           }
         } else {
           if (el) el.classList.remove("country-visited", "country-home", "no-link");
-          layer.setStyle({ color: getVar("--land-line"), weight: 0.7,
-            fillColor: getVar("--land"), fillOpacity: 1 });
+          if (tab === "terrain")
+            layer.setStyle({ color: getVar("--terrain-line"), weight: 0.8, fillOpacity: 0 });
+          else
+            layer.setStyle({ color: getVar("--land-line"), weight: 0.7,
+              fillColor: getVar("--land"), fillOpacity: 1 });
           layer.unbindTooltip();
         }
       });
@@ -287,8 +304,10 @@
     const consoleEl = document.querySelector(".console");
     const isJapan = next === "japanblog";
     consoleEl.classList.toggle("mode-japan", isJapan);
+    consoleEl.classList.toggle("terrain-on", next === "terrain");
     map.removeLayer(markerLayer);
     if (isJapan) {
+      setTerrain(false);
       clearCountryHighlights();
       ensureJapanBlog();
       map.addLayer(japanBlogLayer);
@@ -297,6 +316,7 @@
       return;
     }
     if (japanBlogLayer) map.removeLayer(japanBlogLayer);
+    setTerrain(next === "terrain");
 
     configureSlider(next);
     if (next === "mountains") buildMarkers("mountains");
@@ -382,14 +402,16 @@
     const present = new Set(yearsForTab(t));
     const ys = [...present].sort((a, b) => a - b);
     const lo = ys.length ? ys[0] : minYear;
+    const step = Math.max(1, Math.ceil((maxYear - lo) / 6)); // ~6 labels shown on mobile
     for (let y = lo; y <= maxYear; y++) {
       const b = document.createElement("button");
       b.textContent = y; b.title = y; b.dataset.v = y;
       if (present.has(y)) {
         b.addEventListener("click", () => { year = y; paint(); frameCurrent(); });
       } else {
-        b.className = "off";
+        b.classList.add("off");
       }
+      if ((y - lo) % step !== 0 && y !== maxYear) b.classList.add("minor");
       ticks.appendChild(b);
     }
     const all = document.createElement("button");

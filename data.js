@@ -92,33 +92,33 @@ const TRAVELS = {
     { name: "The Tatras",           coords: [49.1795, 20.0880], elevation: 2655, country: "Poland",      years: [2025],                   url: "https://belleelene.com/2025/10/16/tatras/" },
     { name: "Arthur's Seat",        coords: [55.9442, -3.1618], elevation: 251,  country: "Scotland",    years: [2026],                   url: "https://belleelene.com/2026/06/26/arthurs-seat/" },
     { name: "Kebnekaise · Kungsleden", coords: [67.9010, 18.5127], elevation: 2096, country: "Sweden",   years: [2026],                   url: "" },
-    { name: "Mt Fuji",              coords: [35.3606, 138.7274], elevation: 3776, country: "Japan",     years: [2017, 2022],
+    { name: "Fuji",              coords: [35.3606, 138.7274], elevation: 3776, country: "Japan",     years: [2017, 2022],
       links: { 2017: "https://belleelene.com/2017/09/03/thoughts-on-climbing-mt-fuji/",
                2022: "https://belleelene.com/2022/09/15/fuji/" } },
-    { name: "Mt Mitake",            coords: [35.7833, 139.1500], elevation: 929,  country: "Japan",     years: [2020],                   url: "https://belleelene.com/2020/09/30/day-hike-from-tokyo-mt-mitake-hinode-and-konpira/" },
+    { name: "Mitake",            coords: [35.7833, 139.1500], elevation: 929,  country: "Japan",     years: [2020],                   url: "https://belleelene.com/2020/09/30/day-hike-from-tokyo-mt-mitake-hinode-and-konpira/" },
     { name: "Tonodake",             coords: [35.4536, 139.1611], elevation: 1491, country: "Japan",     years: [2020],                   url: "https://belleelene.com/2020/10/28/day-hike-from-tokyo-the-tanzawa-mountains-tonodake-and-tanzawa/" },
-    { name: "Mt Tsukuba",           coords: [36.2253, 140.1067], elevation: 877,  country: "Japan",     years: [2020],                   url: "https://belleelene.com/2020/07/11/day-hike-in-mt-tsukuba/" },
+    { name: "Tsukuba",           coords: [36.2253, 140.1067], elevation: 877,  country: "Japan",     years: [2020],                   url: "https://belleelene.com/2020/07/11/day-hike-in-mt-tsukuba/" },
     { name: "Takanosu",             coords: [35.8419, 139.0064], elevation: 1737, country: "Japan",     years: [2020],                   url: "https://belleelene.com/2020/08/24/day-hike-from-tokyo-chisuji-falls-mt-takanosu-and-mt-byobu/" },
     { name: "Myojingatake",         coords: [35.2683, 139.0342], elevation: 1169, country: "Japan",     years: [2020, 2021],
       links: { 2020: "https://belleelene.com/2020/10/25/day-hike-from-tokyo-exploring-myojingatake-and-the-outer-caldera-of-hakone/",
                2021: "https://belleelene.com/2021/11/22/day-hike-from-tokyo-exploring-myojingatake-but-on-a-sunny-day/" } },
-    { name: "Mt Jinba",             coords: [35.6425, 139.1653], elevation: 855,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2021/07/17/day-hike-from-tokyo-mt-jinba-a-mountain-with-a-horse/" },
-    { name: "Mt Oyama",             coords: [35.4402, 139.2320], elevation: 1252, country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/07/15/oyama/" },
-    { name: "Mt Otake",             coords: [35.7889, 139.1156], elevation: 1266, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/03/17/day-hike-from-tokyo-mt-otake/" },
-    { name: "Mt Takao",             coords: [35.6250, 139.2430], elevation: 599,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/11/17/takao/" },
-    { name: "Mt Adatara",           coords: [37.6183, 140.2883], elevation: 1728, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/08/30/adatara/" },
-    { name: "Mt Kuju",              coords: [33.0847, 131.2492], elevation: 1791, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/11/03/kuju/" },
-    { name: "Mt Batur",             coords: [-8.2422, 115.3753], elevation: 1717, country: "Indonesia", years: [2020],                   url: "https://belleelene.com/2020/10/14/hiking-in-the-dawn-at-bali-mt-batur/" },
-    { name: "Mt Kintoki",           coords: [35.2925, 139.0242], elevation: 1212, country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/01/15/the-golden-boy-and-the-mountain/" },
-    { name: "Mt Nokogiri",          coords: [35.1614, 139.8256], elevation: 329,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2021/11/11/day-hike-from-tokyo-the-other-giant-buddha/" },
-    { name: "Mt Bonoore",           coords: [35.9008, 139.1533], elevation: 969,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2023/01/19/bonoore/" },
-    { name: "Mt Takatori",          coords: [35.3800, 139.2200], elevation: 705,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2023/05/05/mt-takatori/" },
-    { name: "Mt Amagi",             coords: [34.8600, 138.9906], elevation: 1406, country: "Japan",     years: [2017],                   url: "https://belleelene.com/2024/04/11/amagi/" },
-    { name: "Koburi Pass",          coords: [35.9367, 139.1936], elevation: 390,  country: "Japan",     years: [2019],                   url: "https://belleelene.com/2020/07/17/a-hidden-gem-koburi-pass/" },
-    { name: "Mt Sengenrei",         coords: [35.6460, 139.1410], elevation: 1006, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/08/09/hossawa/" },
+    { name: "Jinba",             coords: [35.6425, 139.1653], elevation: 855,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2021/07/17/day-hike-from-tokyo-mt-jinba-a-mountain-with-a-horse/" },
+    { name: "Oyama",             coords: [35.4402, 139.2320], elevation: 1252, country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/07/15/oyama/" },
+    { name: "Otake",             coords: [35.7889, 139.1156], elevation: 1266, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/03/17/day-hike-from-tokyo-mt-otake/" },
+    { name: "Takao",             coords: [35.6250, 139.2430], elevation: 599,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/11/17/takao/" },
+    { name: "Adatara",           coords: [37.6183, 140.2883], elevation: 1728, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/08/30/adatara/" },
+    { name: "Kuju",              coords: [33.0847, 131.2492], elevation: 1791, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/11/03/kuju/" },
+    { name: "Batur",             coords: [-8.2422, 115.3753], elevation: 1717, country: "Indonesia", years: [2020],                   url: "https://belleelene.com/2020/10/14/hiking-in-the-dawn-at-bali-mt-batur/" },
+    { name: "Kintoki",           coords: [35.2925, 139.0242], elevation: 1212, country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/01/15/the-golden-boy-and-the-mountain/" },
+    { name: "Nokogiri",          coords: [35.1614, 139.8256], elevation: 329,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2021/11/11/day-hike-from-tokyo-the-other-giant-buddha/" },
+    { name: "Bonoore",           coords: [35.9008, 139.1533], elevation: 969,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2023/01/19/bonoore/" },
+    { name: "Takatori",          coords: [35.3800, 139.2200], elevation: 705,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2023/05/05/mt-takatori/" },
+    { name: "Amagi",             coords: [34.8600, 138.9906], elevation: 1406, country: "Japan",     years: [2017],                   url: "https://belleelene.com/2024/04/11/amagi/" },
+    { name: "Koburitoge",          coords: [35.9367, 139.1936], elevation: 390,  country: "Japan",     years: [2019],                   url: "https://belleelene.com/2020/07/17/a-hidden-gem-koburi-pass/" },
+    { name: "Sengenrei",         coords: [35.6460, 139.1410], elevation: 1006, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/08/09/hossawa/" },
     { name: "Rokkokutoge",          coords: [35.5186, 139.1244], elevation: 971,  country: "Japan",     years: [2022],                   url: "https://belleelene.com/2023/02/14/rokkokutoge/" },
     { name: "Hatonosu Gorge",       coords: [35.8108, 139.1289], elevation: 300,  country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/04/29/okutama-kori/" },
-    { name: "Mount Agano",          coords: [35.9267, 139.1667], elevation: 851,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/12/08/takayama-fudoson/" },
+    { name: "Agano",          coords: [35.9267, 139.1667], elevation: 851,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/12/08/takayama-fudoson/" },
     { name: "Unazawa Falls",        coords: [35.8194, 139.0525], elevation: 500,  country: "Japan",     years: [2020],                   url: "https://belleelene.com/2022/10/15/unazawa/" },
     { name: "Bastei",               coords: [50.9619, 14.0718], elevation: 305,   country: "Germany",   years: [2016],                   url: "https://belleelene.com/2019/10/13/places-ive-been-bastei-rathen-germany/" },
     { name: "Montserrat",           coords: [41.5930, 1.8370], elevation: 1236,   country: "Spain",      years: [2024],                  url: "https://belleelene.com/2024/07/18/santjeroni/" },
@@ -192,23 +192,23 @@ const COUNTRY_ALIASES = {
 const JAPAN_BLOG = {
   bounds: [[26, 127], [46, 146]],
   prefectures: [
-    { name: "Hokkaido",  coords: [43.40, 142.50], posts: [
+    { name: "Hokkaido",  coords: [43.4, 142.8], posts: [
       ["Lake Akan", "https://belleelene.com/2021/06/06/roadtrip-to-hokkaido-looking-for-the-natives/"],
       ["Asahidake", "https://belleelene.com/2021/06/19/roadtrip-to-hokkaido-all-is-white-pt-2/"],
       ["Noboribetsu", "https://belleelene.com/2021/06/27/roadtrip-to-hokkaido-the-stinky-valley-pt-3/"],
       ["The roads of Hokkaido", "https://belleelene.com/2021/05/15/the-roads-of-hokkaido/"] ] },
-    { name: "Miyagi",    coords: [38.40, 140.90], posts: [
+    { name: "Miyagi",    coords: [38.44, 140.92], posts: [
       ["Matsushima", "https://belleelene.com/2022/10/05/matsushima/"],
       ["Yamamotocho", "https://belleelene.com/2021/03/10/in-memory-of-311-the-town-of-yamamotocho/"] ] },
-    { name: "Fukushima", coords: [37.50, 140.30], posts: [
+    { name: "Fukushima", coords: [37.42, 140.1], posts: [
       ["Goshikinuma", "https://belleelene.com/2023/06/26/goshikinuma/"],
       ["Mt Adatara", "https://belleelene.com/2022/08/30/adatara/"] ] },
-    { name: "Tokyo",     coords: [35.68, 139.76], posts: [
+    { name: "Tokyo",     coords: [35.69, 139.4], posts: [
       ["47 ronin", "https://belleelene.com/2021/05/08/sengakuji-and-the-graves-of-the-47-ronin/"],
       ["Izu Isles", "https://belleelene.com/2020/12/04/attempting-oshima-2-a-weekend-in-izu-oshima/"],
       ["Harajuku & Togo Shrine", "https://belleelene.com/2022/02/10/city-life-harajuku-amp-togo-shrine/"],
       ["Shitamachi", "https://belleelene.com/2020/11/20/a-quiet-koyo-season-in-university-of-tokyo/"] ] },
-    { name: "Kanagawa",  coords: [35.30, 139.45], posts: [
+    { name: "Kanagawa",  coords: [35.4, 139.35], posts: [
       ["Kamakura", "https://belleelene.com/2024/05/23/kamakura/"],
       ["Kamakura Enkakuji", "https://belleelene.com/2022/11/10/engakuji/"],
       ["Hakone", "https://belleelene.com/2022/09/08/hakone/"],
@@ -216,63 +216,63 @@ const JAPAN_BLOG = {
       ["Miura", "https://belleelene.com/2022/02/24/day-trip-from-tokyo-miura/"],
       ["Enoshima", "https://belleelene.com/2021/01/31/kira-kira-enoshima/"],
       ["Odawara", "https://belleelene.com/2018/01/10/day-trip-from-tokyo-odawara-castle/"] ] },
-    { name: "Chiba",     coords: [35.60, 140.12], posts: [
+    { name: "Chiba",     coords: [35.51, 140.2], posts: [
       ["Sawara", "https://belleelene.com/2022/05/26/sawara/"],
       ["Mt Nokogiri", "https://belleelene.com/2021/11/11/day-hike-from-tokyo-the-other-giant-buddha/"],
       ["Narita-san", "https://belleelene.com/2024/08/29/narita/"] ] },
-    { name: "Ibaraki",   coords: [36.20, 140.35], posts: [
+    { name: "Ibaraki",   coords: [36.3, 140.35], posts: [
       ["Ibaraki Yokaren", "https://belleelene.com/2022/07/08/yokaren/"],
       ["Mt Tsukuba", "https://belleelene.com/2020/07/11/day-hike-in-mt-tsukuba/"] ] },
-    { name: "Gunma",     coords: [36.39, 139.06], posts: [
+    { name: "Gunma",     coords: [36.5, 138.95], posts: [
       ["Tatebayashi", "https://belleelene.com/2023/01/26/tanuki/"] ] },
-    { name: "Tochigi",   coords: [36.75, 139.73], posts: [
+    { name: "Tochigi",   coords: [36.68, 139.85], posts: [
       ["Nikko", "https://belleelene.com/2023/11/03/nikko/"] ] },
-    { name: "Saitama",   coords: [35.95, 139.35], posts: [
+    { name: "Saitama",   coords: [36, 139.35], posts: [
       ["Kawagoe", "https://belleelene.com/2023/11/28/kawagoe/"],
       ["Chichibu", "https://belleelene.com/2021/06/13/monoimeri-ekdromi-chichibu/"],
       ["Moroyama", "https://belleelene.com/2021/12/21/ippokratis-saitama/"],
       ["Hanno Takayama Fudoson", "https://belleelene.com/2022/12/08/takayama-fudoson/"] ] },
-    { name: "Nagano",    coords: [36.20, 138.00], posts: [
+    { name: "Nagano",    coords: [36.15, 138.05], posts: [
       ["Naraijuku", "https://belleelene.com/2021/12/18/roadtrip-to-narai-juku-in-nagano/"],
       ["Matsumoto", "https://belleelene.com/2021/05/28/ta-kastra/"],
       ["Romantic Road", "https://belleelene.com/2024/09/19/westjapan/"] ] },
-    { name: "Shizuoka",  coords: [34.98, 138.40], posts: [
+    { name: "Shizuoka",  coords: [34.97, 138.3], posts: [
       ["Mt Fuji", "https://belleelene.com/2023/05/03/fuji-gr/"],
       ["Mt Amagi", "https://belleelene.com/2024/04/11/amagi/"],
       ["Shibazakura", "https://belleelene.com/2024/05/02/shibazakura/"] ] },
-    { name: "Yamanashi", coords: [35.50, 138.65], posts: [
+    { name: "Yamanashi", coords: [35.6, 138.6], posts: [
       ["Chureito Pagoda", "https://belleelene.com/2020/07/09/chureito-pagoda/"],
       ["Fuji Five Lakes", "https://belleelene.com/2024/05/09/fivelakes/"] ] },
-    { name: "Ishikawa",  coords: [36.56, 136.66], posts: [
+    { name: "Ishikawa",  coords: [36.8, 136.8], posts: [
       ["Kanazawa", "https://belleelene.com/2021/02/12/roadtrip-to-gifu-kanazawa-challenging-el-dorado-pt-3/"] ] },
-    { name: "Gifu",      coords: [36.20, 137.00], posts: [
+    { name: "Gifu",      coords: [35.9, 137.05], posts: [
       ["Takayama", "https://belleelene.com/2021/01/24/roadtrip-all-white-shirakawago-hida-and-kanazawa/"],
       ["Shirakawago", "https://belleelene.com/2021/01/30/roadtrip-to-gifu-the-charms-of-shirakawago-pt-2/"] ] },
-    { name: "Aichi",     coords: [35.18, 136.91], posts: [
+    { name: "Aichi",     coords: [34.95, 137.2], posts: [
       ["Nagoya", "https://belleelene.com/2023/10/12/nagoya/"],
       ["Toyota", "https://belleelene.com/2023/10/14/toyota/"],
       ["Bullet train", "https://belleelene.com/2022/08/13/shinkansen/"] ] },
-    { name: "Mie",       coords: [34.49, 136.71], posts: [
+    { name: "Mie",       coords: [34.5, 136.3], posts: [
       ["Ise Jingu", "https://belleelene.com/2020/08/27/mie-the-land-of-amaterasu/"] ] },
-    { name: "Nara",      coords: [34.68, 135.83], posts: [
+    { name: "Nara",      coords: [34.3, 135.85], posts: [
       ["Nara's deer", "https://belleelene.com/2024/11/28/nara/"] ] },
-    { name: "Osaka",     coords: [34.69, 135.50], posts: [
+    { name: "Osaka",     coords: [34.62, 135.55], posts: [
       ["Osaka", "https://belleelene.com/2024/02/15/osaka/"] ] },
-    { name: "Hyogo",     coords: [34.69, 135.19], posts: [
+    { name: "Hyogo",     coords: [35, 134.8], posts: [
       ["Kobe", "https://belleelene.com/2024/02/15/osaka/"] ] },
-    { name: "Kyoto",     coords: [35.01, 135.77], posts: [
+    { name: "Kyoto",     coords: [35.25, 135.5], posts: [
       ["Kyoto basics", "https://belleelene.com/2022/11/24/kyoto-basics/"],
       ["Fushimi Inari", "https://belleelene.com/2018/02/17/thoughts-from-kyoto/"] ] },
-    { name: "Miyazaki",  coords: [32.72, 131.30], posts: [
+    { name: "Miyazaki",  coords: [32.15, 131.3], posts: [
       ["Takachiho", "https://belleelene.com/2023/01/12/miyazaki/"] ] },
-    { name: "Oita",      coords: [33.20, 131.40], posts: [
+    { name: "Oita",      coords: [33.2, 131.45], posts: [
       ["Beppu", "https://belleelene.com/2022/12/29/beppu/"],
       ["Mt Kuju", "https://belleelene.com/2022/11/03/kuju/"] ] },
-    { name: "Nagasaki",  coords: [32.75, 129.87], posts: [
+    { name: "Nagasaki",  coords: [33, 129.75], posts: [
       ["Gunkanjima", "https://belleelene.com/2022/12/23/nagasaki/"] ] },
-    { name: "Kagoshima", coords: [28.38, 129.49], posts: [
+    { name: "Kagoshima", coords: [31.55, 130.55], posts: [
       ["Amami-Oshima", "https://belleelene.com/2020/09/11/imo-re-to-the-amamis-a-turbulent-stay-in-amami-oshima/"] ] },
-    { name: "Okinawa",   coords: [26.34, 127.75], posts: [
+    { name: "Okinawa",   coords: [26.5, 127.95], posts: [
       ["Naha", "https://belleelene.com/2023/08/09/naha/"],
       ["Nago", "https://belleelene.com/2023/09/13/nago/"],
       ["Zamami island", "https://belleelene.com/2023/07/25/zamami/"] ] },
