@@ -4,7 +4,8 @@
   const $ = (s, r = document) => r.querySelector(s);
   const norm = (s) => String(s).trim().toLowerCase();
   const CFG = (typeof CONFIG !== "undefined") ? CONFIG : {};
-  const SITE = (CFG.site || "https://belleelene.com").replace(/\/+$/, "");
+  const SITE = (CFG.site || "").replace(/\/+$/, "");
+  const HAS_SITE = SITE.length > 0;
 
   function canonicalCountry(name) {
     const n = norm(name);
@@ -77,25 +78,35 @@
   function anyLink(item) {
     return !!(item && (item.url || (item.links && Object.values(item.links).some(Boolean))));
   }
-  //`tag` overrides the slug.
+  function articleLinks(item) {
+    return item && item.links ? Object.values(item.links).filter(Boolean) : (item && item.url ? [item.url] : []);
+  }
   function slugify(n) {
     return String(n || "").toLowerCase().split("·")[0].trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   }
+  // Auto-generated tag page — needs a configured site. `tag` overrides the slug.
   function tagUrl(item) {
-    if (item.home && item.url) return item.url;            // home country → its category page
     const t = item.tag;
     if (t) return /^https?:/i.test(t) ? t : SITE + "/tag/" + t + "/";
     return SITE + "/tag/" + slugify(item.name || item.label) + "/";
   }
+  // The "All" link: explicit data first (home category, full-URL tag), then the
+  // auto tag page (only when a site is set), else fall back to the newest data article.
+  function allLink(item) {
+    if (item.home) return item.url || "";
+    if (item.tag && /^https?:/i.test(item.tag)) return item.tag;
+    if (HAS_SITE && anyLink(item)) return tagUrl(item);
+    const a = articleLinks(item);
+    return a.length ? a[a.length - 1] : "";
+  }
   function clickable(item) {
-    return year === ALL ? anyLink(item) : !!linkAtYear(item);
+    return year === ALL ? !!allLink(item) : !!linkAtYear(item);
   }
 
-  // Specific year → that year's article. "All" → the place's tag page (it exists
-  // whenever there's at least one article). Home countries → their category page.
+  // Specific year → that year's article (from the data). "All" → tag page or a data article.
   function handleClick(item) {
-    if (year !== ALL) { const u = linkAtYear(item); if (u) window.open(u, "_blank", "noopener"); return; }
-    if (anyLink(item)) window.open(tagUrl(item), "_blank", "noopener");
+    const url = year === ALL ? allLink(item) : linkAtYear(item);
+    if (url) window.open(url, "_blank", "noopener");
   }
 
   fetch("world.geojson")
@@ -441,7 +452,7 @@
   function applyConfig() {
     const owner = CFG.owner || "belleelene";
     const label = CFG.siteLabel || SITE.replace(/^https?:\/\//, "");
-    const show = CFG.showExtras !== false;
+    const showChrome = CFG.showExtras !== false;   // cards + footer (explicit content)
     document.title = owner + (CFG.tagline ? " · " + CFG.tagline : "");
     const name = $("#brandName"); if (name) name.textContent = owner;
     const logo = $("#brandLogo"); if (logo) logo.alt = owner + " logo";
@@ -451,18 +462,19 @@
       const last = w.pop();
       tagEl.innerHTML = (w.length ? w.join(" ") + " " : "") + "<b>" + last + "</b>";
     }
-    const link = $("#siteLink");
+    const link = $("#siteLink");   // auto-built from the site → needs a site
     if (link) {
-      link.href = SITE + "/";
-      link.textContent = label + " ↗";
-      link.style.display = show ? "" : "none";
+      if (HAS_SITE) { link.href = SITE + "/"; link.textContent = label + " ↗"; }
+      link.style.display = (HAS_SITE && showChrome) ? "" : "none";
     }
     const foot = $(".foot");
     if (foot) {
-      foot.style.display = show ? "" : "none";
-      foot.innerHTML = `<span>Built by <a href="${SITE}/" target="_blank" rel="noopener">${owner}</a>.</span>`;
+      foot.innerHTML = HAS_SITE
+        ? `<span>Built by <a href="${SITE}/" target="_blank" rel="noopener">${owner}</a>.</span>`
+        : `<span>Built by ${owner}.</span>`;
+      foot.style.display = showChrome ? "" : "none";
     }
-    const extras = $("#extras"); if (extras) extras.style.display = show ? "" : "none";
+    const extras = $("#extras"); if (extras) extras.style.display = showChrome ? "" : "none";  // cards = explicit links
   }
 
   function init() {
