@@ -1,3 +1,11 @@
+const CONFIG = {
+  owner:      "belleelene",                // title + credit
+  tagline:    "a map of my wanderings",    // header sub-line
+  site:       "https://belleelene.com",    // personal site; also the base for tag links
+  siteLabel:  "belleelene.com",            // text on the header link
+  showExtras: true,                        // false → hide the site link, footer credit and the cards
+};
+
 const TRAVELS = {
   meta: {
     name: "belleelene",
@@ -13,23 +21,23 @@ const TRAVELS = {
     { name: "Japan",          home: true,
       url: "https://belleelene.com/category/japan/" },
     { name: "Germany",        years: [2016, 2017, 2023, 2026],
-      links: { 2016: "https://belleelene.com/2016/11/22/prague-dresden-2015-trip-gallery/",
-               2017: "https://belleelene.com/2017/03/19/memories-from-december-berlin-dresden-meissen-leipzig-prague/",
+      links: { 2015: "https://belleelene.com/2016/11/22/prague-dresden-2015-trip-gallery/",
+               2016: "https://belleelene.com/2017/03/19/memories-from-december-berlin-dresden-meissen-leipzig-prague/",
                2023: "",
                2026: "" } },
     { name: "England",        years: [2023, 2024, 2025],       links: { 2023: "", 2024: "https://belleelene.com/2025/10/02/cotswolds/", 2025: "https://belleelene.com/2025/05/13/12northengland/" } },
     { name: "Wales",          years: [2024],             url: "" },
     { name: "Scotland",       years: [2026],             url: "https://belleelene.com/2026/06/19/edinburgh/" },
-    { name: "Spain",          years: [2011, 2016, 2024, 2025],
-      links: { 2011: "",
+    { name: "Spain",          years: [2012, 2016, 2024, 2025],
+      links: { 2012: "",
                2016: "https://belleelene.com/2016/04/02/sevilla-etc/",
                2024: "https://belleelene.com/2022/04/14/semana-santa/", 2025: "https://belleelene.com/2025/04/03/barcelona/" } },
     { name: "Czechia",        years: [2016, 2017],
-      links: { 2016: "https://belleelene.com/2016/11/22/prague-dresden-2015-trip-gallery/",
-               2017: "https://belleelene.com/2017/03/19/memories-from-december-berlin-dresden-meissen-leipzig-prague/" } },
+      links: { 2015: "https://belleelene.com/2016/11/22/prague-dresden-2015-trip-gallery/",
+               2016: "https://belleelene.com/2017/03/19/memories-from-december-berlin-dresden-meissen-leipzig-prague/" } },
     { name: "Switzerland",    years: [2023, 2025],       links: { 2023: "https://belleelene.com/2023/12/08/zurich/", 2025: "" } },
     { name: "Austria",        years: [2019],             url: "https://belleelene.com/2020/01/20/roadtrip-in-austria-part-1-new-years-in-salzburg/" },
-    { name: "Bulgaria",       years: [2024, 2026],       links: { 2024: "https://belleelene.com/2026/04/16/sofia/", 2026: "https://belleelene.com/2026/05/27/urban-sofia/" } },
+    { name: "Bulgaria",       years: [2011, 2024, 2026],       links: { 2011:"", 2024: "https://belleelene.com/2026/04/16/sofia/", 2026: "https://belleelene.com/2026/05/27/urban-sofia/" } },
     { name: "Belgium",        years: [2024],             url: "https://belleelene.com/2025/12/06/belgium/" },
     { name: "France",         years: [2007, 2025],       links: { 2007:"", 2025: "https://belleelene.com/2026/07/02/paris/"} },
     { name: "Italy",          years: [2025],             url: "https://belleelene.com/2026/05/12/bologna/" },
@@ -38,7 +46,7 @@ const TRAVELS = {
     { name: "Vietnam",        years: [2024],             url: "https://belleelene.com/2025/07/07/vietnam/" },
     { name: "Cambodia",       years: [2024],             url: "https://belleelene.com/2025/07/07/vietnam/" },
     { name: "Singapore",      years: [2024],             url: "https://belleelene.com/2025/11/13/singapore/" },
-    { name: "Indonesia",      years: [2020],             url: "" },
+    { name: "Indonesia",      years: [2019],             url: "" },
     { name: "South Korea",    years: [2018, 2024],
       links: { 2018: "https://belleelene.com/2018/10/04/haedong-yonggung/", 2024: "" } },
     { name: "Hong Kong",      years: [2018],             url: "https://belleelene.com/2020/07/19/hong-kong-in-four-acts/" },
@@ -46,7 +54,7 @@ const TRAVELS = {
       url: "https://belleelene.com/category/greece/" },
     { name: "Portugal",       years: [2016],             url: "" },
     { name: "Sweden",         years: [2026],             url: "" },
-    { name: "Slovakia",       years: [2019],             url: "" },
+    { name: "Slovakia",       years: [2019, 2025],             links: {2019:"", 2025:""} },
     { name: "Qatar",          years: [2019],             url: "" },
     { name: "Macao",          years: [2018],             url: "" },
     { name: "Saudi Arabia",   years: [2025],             url: "https://belleelene.com/2025/05/29/saudi/" },
@@ -111,7 +119,7 @@ const TRAVELS = {
     { name: "Takao",             coords: [35.6250, 139.2430], elevation: 599,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/11/17/takao/" },
     { name: "Adatara",           coords: [37.6183, 140.2883], elevation: 1728, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/08/30/adatara/" },
     { name: "Kuju",              coords: [33.0847, 131.2492], elevation: 1791, country: "Japan",     years: [2022],                   url: "https://belleelene.com/2022/11/03/kuju/" },
-    { name: "Batur",             coords: [-8.2422, 115.3753], elevation: 1717, country: "Indonesia", years: [2020],                   url: "https://belleelene.com/2020/10/14/hiking-in-the-dawn-at-bali-mt-batur/" },
+    { name: "Batur",             coords: [-8.2422, 115.3753], elevation: 1717, country: "Indonesia", years: [2019],                   url: "https://belleelene.com/2020/10/14/hiking-in-the-dawn-at-bali-mt-batur/" },
     { name: "Kintoki",           coords: [35.2925, 139.0242], elevation: 1212, country: "Japan",     years: [2021],                   url: "https://belleelene.com/2022/01/15/the-golden-boy-and-the-mountain/" },
     { name: "Nokogiri",          coords: [35.1614, 139.8256], elevation: 329,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2021/11/11/day-hike-from-tokyo-the-other-giant-buddha/" },
     { name: "Bonoore",           coords: [35.9008, 139.1533], elevation: 969,  country: "Japan",     years: [2021],                   url: "https://belleelene.com/2023/01/19/bonoore/" },
