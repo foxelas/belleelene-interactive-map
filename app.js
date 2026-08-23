@@ -3,6 +3,8 @@
 
   const $ = (s, r = document) => r.querySelector(s);
   const norm = (s) => String(s).trim().toLowerCase();
+  const CFG = (typeof CONFIG !== "undefined") ? CONFIG : {};
+  const SITE = (CFG.site || "https://belleelene.com").replace(/\/+$/, "");
 
   function canonicalCountry(name) {
     const n = norm(name);
@@ -75,15 +77,15 @@
   function anyLink(item) {
     return !!(item && (item.url || (item.links && Object.values(item.links).some(Boolean))));
   }
-  // The place's belleelene tag page (all its articles). `tag` overrides the slug.
+  //`tag` overrides the slug.
   function slugify(n) {
     return String(n || "").toLowerCase().split("·")[0].trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   }
   function tagUrl(item) {
     if (item.home && item.url) return item.url;            // home country → its category page
     const t = item.tag;
-    if (t) return /^https?:/i.test(t) ? t : "https://belleelene.com/tag/" + t + "/";
-    return "https://belleelene.com/tag/" + slugify(item.name || item.label) + "/";
+    if (t) return /^https?:/i.test(t) ? t : SITE + "/tag/" + t + "/";
+    return SITE + "/tag/" + slugify(item.name || item.label) + "/";
   }
   function clickable(item) {
     return year === ALL ? anyLink(item) : !!linkAtYear(item);
@@ -436,7 +438,35 @@
   const cssVars = getComputedStyle(document.documentElement);
   function getVar(name) { return cssVars.getPropertyValue(name).trim(); }
 
+  function applyConfig() {
+    const owner = CFG.owner || "belleelene";
+    const label = CFG.siteLabel || SITE.replace(/^https?:\/\//, "");
+    const show = CFG.showExtras !== false;
+    document.title = owner + (CFG.tagline ? " · " + CFG.tagline : "");
+    const name = $("#brandName"); if (name) name.textContent = owner;
+    const logo = $("#brandLogo"); if (logo) logo.alt = owner + " logo";
+    const tagEl = $("#brandTag");
+    if (tagEl && CFG.tagline) {
+      const w = CFG.tagline.trim().split(/\s+/);
+      const last = w.pop();
+      tagEl.innerHTML = (w.length ? w.join(" ") + " " : "") + "<b>" + last + "</b>";
+    }
+    const link = $("#siteLink");
+    if (link) {
+      link.href = SITE + "/";
+      link.textContent = label + " ↗";
+      link.style.display = show ? "" : "none";
+    }
+    const foot = $(".foot");
+    if (foot) {
+      foot.style.display = show ? "" : "none";
+      foot.innerHTML = `<span>Built by <a href="${SITE}/" target="_blank" rel="noopener">${owner}</a>.</span>`;
+    }
+    const extras = $("#extras"); if (extras) extras.style.display = show ? "" : "none";
+  }
+
   function init() {
+    applyConfig();
     document.querySelectorAll(".tab").forEach((t) =>
       t.addEventListener("click", () => setTab(t.dataset.tab)));
 

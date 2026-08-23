@@ -1,3 +1,11 @@
+const CONFIG = {
+  owner:      "belleelene",                // title + credit
+  tagline:    "a map of my wanderings",    // header sub-line
+  site:       "https://belleelene.com",    // personal site; also the base for tag links
+  siteLabel:  "belleelene.com",            // text on the header link
+  showExtras: true,                        // false → hide the site link, footer credit and the cards
+};
+
 const TRAVELS = {
   meta: {
     name: "belleelene",
@@ -29,7 +37,7 @@ const TRAVELS = {
                2016: "https://belleelene.com/2017/03/19/memories-from-december-berlin-dresden-meissen-leipzig-prague/" } },
     { name: "Switzerland",    years: [2023, 2025],       links: { 2023: "https://belleelene.com/2023/12/08/zurich/", 2025: "" } },
     { name: "Austria",        years: [2019],             url: "https://belleelene.com/2020/01/20/roadtrip-in-austria-part-1-new-years-in-salzburg/" },
-    { name: "Bulgaria",       years: [2024, 2026],       links: { 2024: "https://belleelene.com/2026/04/16/sofia/", 2026: "https://belleelene.com/2026/05/27/urban-sofia/" } },
+    { name: "Bulgaria",       years: [2011, 2024, 2026],       links: { 2011:"", 2024: "https://belleelene.com/2026/04/16/sofia/", 2026: "https://belleelene.com/2026/05/27/urban-sofia/" } },
     { name: "Belgium",        years: [2024],             url: "https://belleelene.com/2025/12/06/belgium/" },
     { name: "France",         years: [2007, 2025],       links: { 2007:"", 2025: "https://belleelene.com/2026/07/02/paris/"} },
     { name: "Italy",          years: [2025],             url: "https://belleelene.com/2026/05/12/bologna/" },
@@ -46,7 +54,7 @@ const TRAVELS = {
       url: "https://belleelene.com/category/greece/" },
     { name: "Portugal",       years: [2016],             url: "" },
     { name: "Sweden",         years: [2026],             url: "" },
-    { name: "Slovakia",       years: [2019],             url: "" },
+    { name: "Slovakia",       years: [2019, 2025],             links: {2019:"", 2025:""} },
     { name: "Qatar",          years: [2019],             url: "" },
     { name: "Macao",          years: [2018],             url: "" },
     { name: "Saudi Arabia",   years: [2025],             url: "https://belleelene.com/2025/05/29/saudi/" },
