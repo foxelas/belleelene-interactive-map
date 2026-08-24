@@ -3,71 +3,86 @@
 
   const $ = (s, r = document) => r.querySelector(s);
   const norm = (s) => String(s).trim().toLowerCase();
-  const CFG = (typeof CONFIG !== "undefined") ? CONFIG : {};
-  const SITE = (CFG.site || "").replace(/\/+$/, "");
-  const HAS_SITE = SITE.length > 0;
 
-  function canonicalCountry(name) {
-    const n = norm(name);
-    if (COUNTRY_ALIASES[n]) return COUNTRY_ALIASES[n];
-    return name;
+  // builder.html previews by writing a draft here and loading index.html?preview=1
+  if (new URLSearchParams(location.search).get("preview") === "1") {
+    try {
+      const draft = localStorage.getItem("MAP_PREVIEW");
+      if (draft) window.MAP = JSON.parse(draft);
+      const al = localStorage.getItem("MAP_PREVIEW_ALIASES");
+      if (al) window.COUNTRY_ALIASES = JSON.parse(al);
+    } catch (e) { /* fall back to the bundled data.js */ }
   }
 
-  const countryIndex = {};
-  TRAVELS.countries.forEach((c) => {
-    const key = norm(canonicalCountry(c.name));
-    countryIndex[key] = { years: c.years || [], url: c.url || "", links: c.links || null, home: !!c.home, tag: c.tag || null, label: c.name };
-  });
+  const MAP = window.MAP || { config: {}, layers: [] };
+  const CFG = MAP.config || {};
+  const LAYERS = (MAP.layers || []).filter((l) => l && l.id);
+  const ALIASES = window.COUNTRY_ALIASES || {};
+  const SITE = (CFG.site || "").replace(/\/+$/, "");
+  const HAS_SITE = SITE.length > 0;
+  const LINK_LABEL = CFG.linkLabel || "read the article →";
+
+  function canonicalCountry(name) {
+    return ALIASES[norm(name)] || name;
+  }
 
   const allYears = new Set();
-  const collect = (arr) => arr.forEach((x) => (x.years || []).forEach((y) => allYears.add(y)));
-  collect(TRAVELS.countries); collect(TRAVELS.mountains); collect(TRAVELS.islands);
+  LAYERS.forEach((l) => (l.items || []).forEach((x) => (x.years || []).forEach((y) => allYears.add(y))));
   const years = [...allYears].sort((a, b) => a - b);
   const minYear = years[0], maxYear = years[years.length - 1];
-  const ALL = maxYear + 1;
+  const ALL = (maxYear || 0) + 1;
+  const TIMELINE = CFG.timeline !== false && years.length > 0;
 
-  let tab = "countries";
+  let activeId = LAYERS.length ? LAYERS[0].id : null;
   let year = ALL;
+
+  const layerById = (id) => LAYERS.find((l) => l.id === id);
+  const activeLayer = () => layerById(activeId) || { type: "points", items: [] };
 
   const visibleInYear = (item) =>
     year === ALL ? (item.years && item.years.length > 0)
                  : (item.years || []).includes(year);
 
+  function regionIndex(lyr) {
+    if (lyr.__index) return lyr.__index;
+    const idx = {};
+    (lyr.items || []).forEach((it) => { idx[norm(canonicalCountry(it.name))] = it; });
+    return (lyr.__index = idx);
+  }
+
   const map = L.map("map", {
-    zoomControl: true,
-    attributionControl: true,
-    minZoom: 1, maxZoom: 8,
-    worldCopyJump: true,
-    scrollWheelZoom: true,
+    zoomControl: true, attributionControl: true,
+    minZoom: 1, maxZoom: 8, worldCopyJump: true, scrollWheelZoom: true,
   });
   map.attributionControl.setPrefix(
     '<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> · Natural Earth'
   );
   map.zoomControl.setPosition("topright");
   map.createPane("terrain");
-  map.getPane("terrain").style.zIndex = 250; // above the base, below the country outlines
+  map.getPane("terrain").style.zIndex = 250;
   const WORLD = L.latLngBounds([[-58, -172], [80, 192]]);
   map.fitBounds(WORLD);
 
   let countriesLayer = null;
   const markerLayer = L.layerGroup();
   let currentMarkers = [];
+  let shownPlaces = null;
 
   const terrainLayer = L.tileLayer(
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}", {
     pane: "terrain", maxZoom: 13, opacity: 0.85, noWrap: true, className: "terrain-tiles",
-    bounds: [[-85.05, -180], [85.05, 180]],
-    attribution: "Shaded relief © Esri",
+    bounds: [[-85.05, -180], [85.05, 180]], attribution: "Shaded relief © Esri",
   });
   function setTerrain(on) {
     if (on && !map.hasLayer(terrainLayer)) terrainLayer.addTo(map);
     if (!on && map.hasLayer(terrainLayer)) map.removeLayer(terrainLayer);
   }
 
-  function tip(name, meta, hasUrl) {
+  function tip(name, meta, hasUrl, note) {
     return `<div class="tt-name">${name}</div>` +
            (meta ? `<div class="tt-meta">${meta}</div>` : "") +
-           (hasUrl ? `<div class="tt-go">read the article →</div>` : "");
+           (note ? `<div class="tt-note">${note}</div>` : "") +
+           (hasUrl ? `<div class="tt-go">${LINK_LABEL}</div>` : "");
   }
 
   function linkAtYear(item) {
@@ -84,14 +99,11 @@
   function slugify(n) {
     return String(n || "").toLowerCase().split("·")[0].trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   }
-  // Auto-generated tag page — needs a configured site. `tag` overrides the slug.
   function tagUrl(item) {
     const t = item.tag;
     if (t) return /^https?:/i.test(t) ? t : SITE + "/tag/" + t + "/";
-    return SITE + "/tag/" + slugify(item.name || item.label) + "/";
+    return SITE + "/tag/" + slugify(item.name) + "/";
   }
-  // The "All" link: explicit data first (home category, full-URL tag), then the
-  // auto tag page (only when a site is set), else fall back to the newest data article.
   function allLink(item) {
     if (item.home) return item.url || "";
     if (item.tag && /^https?:/i.test(item.tag)) return item.tag;
@@ -102,8 +114,6 @@
   function clickable(item) {
     return year === ALL ? !!allLink(item) : !!linkAtYear(item);
   }
-
-  // Specific year → that year's article (from the data). "All" → tag page or a data article.
   function handleClick(item) {
     const url = year === ALL ? allLink(item) : linkAtYear(item);
     if (url) window.open(url, "_blank", "noopener");
@@ -114,28 +124,20 @@
     .then((geo) => {
       countriesLayer = L.geoJSON(geo, {
         style: () => ({
-          className: "country",
-          color: getVar("--land-line"),
-          weight: 0.7,
-          fillColor: getVar("--land"),
-          fillOpacity: 1,
+          className: "country", color: getVar("--land-line"), weight: 0.7,
+          fillColor: getVar("--land"), fillOpacity: 1,
         }),
         onEachFeature: (feature, layer) => {
-          const cname = feature.properties.name;
-          const rec = countryIndex[norm(cname)];
-          layer.feature.__rec = rec;
-          if (rec) {
-            layer.on("mouseover", () => layer.bringToFront());
-            layer.on("click", (e) => {
-              if (tab !== "countries") return;
-              layer.closeTooltip();
-              handleClick(rec, e.latlng);
-            });
-          }
+          layer.on("mouseover", () => layer.bringToFront());
+          layer.on("click", () => {
+            const lyr = activeLayer();
+            if (lyr.type !== "regions") return;
+            const rec = regionIndex(lyr)[norm(feature.properties.name)];
+            if (rec) { layer.closeTooltip(); handleClick(rec); }
+          });
         },
       }).addTo(map);
-      setTerrain(tab === "terrain");
-      paint();
+      if (activeLayer().type !== "places") paint();
     })
     .catch((err) => {
       console.error("Could not load world.geojson", err);
@@ -151,7 +153,7 @@
       iconSize: [30, 30], iconAnchor: [15, 26], tooltipAnchor: [0, -22],
     });
   }
-  function islandIcon() {
+  function circleIcon() {
     return L.divIcon({
       className: "pin",
       html: `<svg width="26" height="26" viewBox="0 0 26 26">
@@ -160,66 +162,79 @@
       iconSize: [26, 26], iconAnchor: [13, 13], tooltipAnchor: [0, -12],
     });
   }
+  function emojiIcon(e) {
+    return L.divIcon({
+      className: "pin pin-emoji",
+      html: `<span>${e}</span>`,
+      iconSize: [30, 30], iconAnchor: [15, 26], tooltipAnchor: [0, -24],
+    });
+  }
+  function iconFor(pin, emoji) {
+    if (emoji) return emojiIcon(emoji);
+    if (pin === "mountain") return mountainIcon();
+    return circleIcon();
+  }
 
-  function buildMarkers(kind) {
+  function metaOf(lyr, item) {
+    const m = lyr.metric;
+    const badge = m && item[m.key] != null && item[m.key] !== "" ? item[m.key] + (m.suffix || "") : null;
+    return [badge, item.group].filter(Boolean).join(" · ");
+  }
+
+  function buildMarkers(lyr) {
     markerLayer.clearLayers();
     currentMarkers = [];
-    const src = kind === "mountains" ? TRAVELS.mountains : TRAVELS.islands;
-    src.forEach((item) => {
-      const m = L.marker(item.coords, {
-        icon: kind === "mountains" ? mountainIcon() : islandIcon(),
-        riseOnHover: true,
-        keyboard: false,
-      });
-      m.__meta = kind === "mountains"
-        ? [item.elevation ? item.elevation + " m" : null, item.country].filter(Boolean).join(" · ")
-        : [item.country].filter(Boolean).join(" · ");
-      m.on("click", () => { m.closeTooltip(); handleClick(item, m.getLatLng()); });
+    (lyr.items || []).forEach((item) => {
+      const m = L.marker(item.coords, { icon: iconFor(lyr.pin, item.icon), riseOnHover: true, keyboard: false });
+      m.__meta = metaOf(lyr, item);
       m.__item = item;
+      m.on("click", () => { m.closeTooltip(); handleClick(item); });
       currentMarkers.push(m);
     });
   }
 
   function paint() {
+    const lyr = activeLayer();
+    const isRegions = lyr.type === "regions";
+    const isPoints = lyr.type === "points";
+
     if (countriesLayer) {
+      const index = isRegions ? regionIndex(lyr) : null;
       countriesLayer.eachLayer((layer) => {
-        const rec = layer.feature.__rec;
         const el = layer.getElement && layer.getElement();
+        const rec = index ? index[norm(layer.feature.properties.name)] : null;
+        layer.feature.__rec = rec;
         const isHome = rec && rec.home;
         const on = rec && (isHome || visibleInYear(rec));
-        if (tab === "countries" && on) {
+        if (isRegions && on) {
           const can = clickable(rec);
           if (isHome) {
             layer.setStyle({ color: getVar("--home-line"), weight: 1 });
             if (el) { el.classList.add("country-home"); el.classList.remove("country-visited"); el.classList.toggle("no-link", !can); }
-            layer.bindTooltip(tip(rec.label, "home", can),
+            layer.bindTooltip(tip(rec.name, "home", can, rec.note),
               { className: "tt", direction: "top", sticky: false, opacity: 1 });
           } else {
             layer.setStyle({ color: getVar("--deep"), weight: 1 });
             if (el) { el.classList.add("country-visited"); el.classList.remove("country-home"); el.classList.toggle("no-link", !can); }
-            const metaText = year === ALL ? "visited " + rec.years.join(", ") : "";
-            layer.bindTooltip(tip(rec.label, metaText, can),
+            const metaText = year === ALL ? "visited " + (rec.years || []).join(", ") : "";
+            layer.bindTooltip(tip(rec.name, metaText, can, rec.note),
               { className: "tt", direction: "top", sticky: false, opacity: 1 });
           }
         } else {
           if (el) el.classList.remove("country-visited", "country-home", "no-link");
-          if (tab === "terrain")
-            layer.setStyle({ color: getVar("--terrain-line"), weight: 0.8, fillOpacity: 0 });
-          else
-            layer.setStyle({ color: getVar("--land-line"), weight: 0.7,
-              fillColor: getVar("--land"), fillOpacity: 1 });
+          layer.setStyle({ color: getVar("--land-line"), weight: 0.7, fillColor: getVar("--land"), fillOpacity: 1 });
           layer.unbindTooltip();
         }
       });
     }
 
-    if (tab === "mountains" || tab === "islands") {
+    if (isPoints) {
       map.addLayer(markerLayer);
       markerLayer.clearLayers();
       currentMarkers.forEach((m) => {
         if (!visibleInYear(m.__item)) return;
         const can = clickable(m.__item);
-        m.bindTooltip(tip(m.__item.name, m.__meta, can),
+        m.bindTooltip(tip(m.__item.name, m.__meta, can, m.__item.note),
           { className: "tt", direction: "top", opacity: 1, sticky: false });
         markerLayer.addLayer(m);
         const el = m.getElement && m.getElement();
@@ -235,56 +250,61 @@
     updateYearList();
   }
 
+  function nounOf(lyr) {
+    return lyr.noun || { one: (lyr.label || "").toLowerCase(), many: (lyr.label || "").toLowerCase() };
+  }
+
   function updateStats() {
+    const lyr = activeLayer();
     const big = $("#statBig"), sub = $("#statSub");
-    const uniq = (list) => new Set(list.map((x) => x.name)).size;
-    if (tab === "countries") {
-      const n = uniq(TRAVELS.countries.filter((c) => !c.home && visibleInYear(c)));
-      big.innerHTML = `<em>${n}</em> ${n === 1 ? "country" : "countries"}`;
-      sub.textContent = year === ALL ? "everywhere I've set foot" : `visited in ${year}`;
-    } else if (tab === "mountains") {
-      const list = TRAVELS.mountains.filter(visibleInYear);
-      const n = uniq(list);
-      const hi = list.reduce((a, b) => Math.max(a, b.elevation || 0), 0);
-      big.innerHTML = `<em>${n}</em> ${n === 1 ? "summit" : "summits"}`;
-      sub.textContent = hi ? `highest · ${hi.toLocaleString()} m` : "peaks climbed";
+    const visible = (lyr.items || []).filter((x) => !x.home && visibleInYear(x));
+    const n = new Set(visible.map((x) => x.name)).size;
+    const noun = nounOf(lyr);
+    big.innerHTML = `<em>${n}</em> ${n === 1 ? noun.one : noun.many}`;
+    if (lyr.metric) {
+      const hi = visible.reduce((a, b) => Math.max(a, Number(b[lyr.metric.key]) || 0), 0);
+      sub.textContent = hi ? `highest · ${hi.toLocaleString()}${lyr.metric.suffix || ""}` : "";
+    } else if (year === ALL) {
+      sub.textContent = lyr.subAll || "";
     } else {
-      const n = uniq(TRAVELS.islands.filter(visibleInYear));
-      big.innerHTML = `<em>${n}</em> ${n === 1 ? "island" : "islands"}`;
-      sub.textContent = year === ALL ? "islands wandered" : `wandered in ${year}`;
+      sub.textContent = lyr.subYear ? lyr.subYear.replace("{year}", year) : "in " + year;
     }
   }
 
   function updateLegend() {
+    const lyr = activeLayer();
     const l = $("#legend");
-    if (tab === "countries") { l.innerHTML = `<span class="dot"></span> visited &nbsp; <span class="dot home"></span> home`; }
-    else if (tab === "mountains") { l.innerHTML = `<span class="dot pin-dot"></span> summits`; }
-    else { l.innerHTML = `<span class="dot pin-dot"></span> islands`; }
+    if (lyr.type === "regions") {
+      const hasHome = (lyr.items || []).some((x) => x.home);
+      l.innerHTML = `<span class="dot"></span> visited` + (hasHome ? ` &nbsp; <span class="dot home"></span> home` : "");
+    } else {
+      l.innerHTML = `<span class="dot pin-dot"></span> ${(lyr.label || "").toLowerCase()}`;
+    }
   }
 
   function updateYearList() {
     const box = $("#yearList");
     if (!box) return;
     if (year === ALL) { box.classList.remove("show"); box.innerHTML = ""; return; }
-    const src = tab === "countries" ? TRAVELS.countries
-              : tab === "mountains" ? TRAVELS.mountains : TRAVELS.islands;
-    const noun = tab === "countries" ? "country" : tab === "mountains" ? "summit" : "island";
-    const plural = tab === "countries" ? "countries" : noun + "s";
-    const list = src.filter((x) => (tab !== "countries" || !x.home) && visibleInYear(x))
+    const lyr = activeLayer();
+    const noun = nounOf(lyr);
+    const list = (lyr.items || [])
+      .filter((x) => (lyr.type !== "regions" || !x.home) && visibleInYear(x))
       .slice().sort((a, b) => a.name.localeCompare(b.name));
     const rows = list.map((item) => {
       const can = clickable(item);
-      const meta = tab === "mountains" && item.elevation ? `<span class="yl-meta">${item.elevation} m</span>` : "";
+      const m = lyr.metric;
+      const meta = m && item[m.key] != null && item[m.key] !== "" ? `<span class="yl-meta">${item[m.key]}${m.suffix || ""}</span>` : "";
       return `<button class="yl-row${can ? "" : " no-link"}" data-name="${encodeURIComponent(item.name)}">` +
              `<span class="yl-name">${item.name}</span>${meta}${can ? '<span class="yl-go">→</span>' : ""}</button>`;
     }).join("");
     box.innerHTML =
-      `<div class="yl-head">${year}<span>${list.length} ${list.length === 1 ? noun : plural}</span></div>` +
+      `<div class="yl-head">${year}<span>${list.length} ${list.length === 1 ? noun.one : noun.many}</span></div>` +
       `<div class="yl-body">${rows || '<div class="yl-empty">nothing this year</div>'}</div>`;
     box.classList.add("show");
     box.querySelectorAll(".yl-row").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const item = src.find((x) => x.name === decodeURIComponent(btn.dataset.name));
+        const item = (lyr.items || []).find((x) => x.name === decodeURIComponent(btn.dataset.name));
         const url = item && linkAtYear(item);
         if (url) window.open(url, "_blank", "noopener");
       });
@@ -293,6 +313,7 @@
 
   function updateSlider() {
     const label = $("#yearNow");
+    if (!label) return;
     if (year === ALL) { label.className = "year-now all"; label.innerHTML = `<em>All years</em>`; }
     else { label.className = "year-now"; label.textContent = year; }
     document.querySelectorAll(".ticks button").forEach((b) => {
@@ -302,37 +323,35 @@
   }
 
   function setTab(next) {
-    tab = next;
+    activeId = next;
+    const lyr = activeLayer();
     document.querySelectorAll(".tab").forEach((t) =>
       t.setAttribute("aria-selected", String(t.dataset.tab === next)));
 
-    const consoleEl = document.querySelector(".console");
-    const isJapan = next === "japanblog";
-    consoleEl.classList.toggle("mode-japan", isJapan);
-    consoleEl.classList.toggle("terrain-on", next === "terrain");
+    const consoleEl = $(".console");
+    const isPlaces = lyr.type === "places";
+    consoleEl.classList.toggle("mode-places", isPlaces);
     map.removeLayer(markerLayer);
-    if (isJapan) {
-      setTerrain(false);
-      clearCountryHighlights();
-      ensureJapanBlog();
-      map.addLayer(japanBlogLayer);
-      buildThemesPanel();
-      map.flyToBounds(L.latLngBounds(JAPAN_BLOG.bounds), { duration: .6 });
+    if (shownPlaces) { map.removeLayer(shownPlaces); shownPlaces = null; }
+    setTerrain(false);
+
+    if (isPlaces) {
+      clearRegionHighlights();
+      ensurePlaces(lyr);
+      shownPlaces = lyr.__group;
+      map.addLayer(lyr.__group);
+      buildThemes(lyr);
+      map.flyToBounds(L.latLngBounds(lyr.bounds), { duration: .6 });
       return;
     }
-    if (japanBlogLayer) map.removeLayer(japanBlogLayer);
-    setTerrain(next === "terrain");
 
-    // Mountains & Islands open on the current (latest) year; Countries on "All"
-    year = (next === "mountains" || next === "islands") ? maxYear : ALL;
-    configureSlider(next);
-    if (next === "mountains") buildMarkers("mountains");
-    if (next === "islands") buildMarkers("islands");
+    year = (TIMELINE && lyr.type === "points") ? maxYear : ALL;
+    configureSlider(lyr);
+    if (lyr.type === "points") buildMarkers(lyr);
     paint();
     frameCurrent();
   }
 
-  let japanBlogLayer = null;
   function blogIcon() {
     return L.divIcon({
       className: "pin blog-pin",
@@ -342,30 +361,30 @@
       iconSize: [22, 22], iconAnchor: [11, 11], tooltipAnchor: [0, -10],
     });
   }
-  function ensureJapanBlog() {
-    if (japanBlogLayer) return;
-    japanBlogLayer = L.layerGroup();
-    JAPAN_BLOG.prefectures.forEach((p) => {
+  function ensurePlaces(lyr) {
+    if (lyr.__group) return;
+    lyr.__group = L.layerGroup();
+    (lyr.groups || []).forEach((p) => {
       const m = L.marker(p.coords, { icon: blogIcon(), riseOnHover: true, keyboard: false });
-      const links = p.posts.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join("");
+      const links = (p.posts || []).map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join("");
       m.bindPopup(`<div class="blog-pop"><div class="bp-title">${p.name}</div><div class="bp-links">${links}</div></div>`,
         { className: "blog-popup", closeButton: true, minWidth: 150, maxWidth: 240 });
       m.bindTooltip(p.name, { className: "tt", direction: "top", opacity: 1 });
-      japanBlogLayer.addLayer(m);
+      lyr.__group.addLayer(m);
     });
   }
-  function buildThemesPanel() {
+  function buildThemes(lyr) {
     const box = $("#themes");
-    if (!box || box.dataset.built) return;
-    box.dataset.built = "1";
-    const groups = JAPAN_BLOG.themes.map((t) =>
+    if (!box || box.dataset.built === lyr.id) return;
+    box.dataset.built = lyr.id;
+    const groups = (lyr.themes || []).map((t) =>
       `<div class="th-group"><div class="th-name">${t.name}</div>` +
-      t.posts.map(([title, u]) => `<a class="th-link" href="${u}" target="_blank" rel="noopener">${title}</a>`).join("") +
+      (t.posts || []).map(([title, u]) => `<a class="th-link" href="${u}" target="_blank" rel="noopener">${title}</a>`).join("") +
       `</div>`).join("");
-    box.innerHTML = `<div class="yl-head">Japan blog<span>${JAPAN_BLOG.prefectures.length} areas</span></div>` +
+    box.innerHTML = `<div class="yl-head">${lyr.label}<span>${(lyr.groups || []).length} areas</span></div>` +
       `<div class="yl-body th-body">${groups}</div>`;
   }
-  function clearCountryHighlights() {
+  function clearRegionHighlights() {
     if (!countriesLayer) return;
     countriesLayer.eachLayer((layer) => {
       const el = layer.getElement && layer.getElement();
@@ -376,9 +395,10 @@
   }
 
   function frameCurrent() {
+    const lyr = activeLayer();
     if (year === ALL) { map.flyToBounds(WORLD, { duration: .5 }); return; }
     let bounds = null;
-    if (tab === "countries") {
+    if (lyr.type === "regions") {
       if (countriesLayer) countriesLayer.eachLayer((l) => {
         const rec = l.feature.__rec;
         if (rec && !rec.home && visibleInYear(rec)) {
@@ -387,37 +407,31 @@
         }
       });
     } else {
-      const src = tab === "mountains" ? TRAVELS.mountains : TRAVELS.islands;
-      const pts = src.filter(visibleInYear).map((x) => x.coords);
+      const pts = (lyr.items || []).filter(visibleInYear).map((x) => x.coords);
       if (pts.length) bounds = L.latLngBounds(pts);
     }
     if (bounds && bounds.isValid()) map.flyToBounds(bounds.pad(0.35), { duration: .6, maxZoom: 6 });
     else map.flyToBounds(WORLD, { duration: .5 });
   }
 
-  function yearsForTab(t) {
-    const src = t === "mountains" ? TRAVELS.mountains
-              : t === "islands" ? TRAVELS.islands : TRAVELS.countries;
+  function yearsForLayer(lyr) {
     const s = new Set();
-    src.forEach((x) => (x.years || []).forEach((y) => s.add(y)));
+    (lyr.items || []).forEach((x) => (x.years || []).forEach((y) => s.add(y)));
     return [...s].sort((a, b) => a - b);
   }
 
-  function buildTicks(t) {
+  function buildTicks(lyr) {
     const ticks = $("#ticks");
     ticks.innerHTML = "";
-    const present = new Set(yearsForTab(t));
+    const present = new Set(yearsForLayer(lyr));
     const ys = [...present].sort((a, b) => a - b);
     const lo = ys.length ? ys[0] : minYear;
-    const step = Math.max(1, Math.ceil((maxYear - lo) / 6)); // ~6 labels shown on mobile
+    const step = Math.max(1, Math.ceil((maxYear - lo) / 6));
     for (let y = lo; y <= maxYear; y++) {
       const b = document.createElement("button");
       b.textContent = y; b.title = y; b.dataset.v = y;
-      if (present.has(y)) {
-        b.addEventListener("click", () => { year = y; paint(); frameCurrent(); });
-      } else {
-        b.classList.add("off");
-      }
+      if (present.has(y)) b.addEventListener("click", () => { year = y; paint(); frameCurrent(); });
+      else b.classList.add("off");
       if ((y - lo) % step !== 0 && y !== maxYear) b.classList.add("minor");
       ticks.appendChild(b);
     }
@@ -427,9 +441,10 @@
     ticks.appendChild(all);
   }
 
-  function configureSlider(t) {
-    buildTicks(t);
-    const ys = yearsForTab(t);
+  function configureSlider(lyr) {
+    if (!TIMELINE) { year = ALL; return; }
+    buildTicks(lyr);
+    const ys = yearsForLayer(lyr);
     const tMin = ys.length ? ys[0] : minYear;
     const range = $("#range");
     range.min = tMin; range.max = ALL; range.step = 1;
@@ -450,40 +465,100 @@
   function getVar(name) { return cssVars.getPropertyValue(name).trim(); }
 
   function applyConfig() {
-    const owner = CFG.owner || "belleelene";
+    const title = CFG.title || CFG.owner || "map";
+    const by = CFG.footerBy || title;
     const label = CFG.siteLabel || SITE.replace(/^https?:\/\//, "");
-    document.title = owner + (CFG.tagline ? " · " + CFG.tagline : "");
-    const name = $("#brandName"); if (name) name.textContent = owner;
-    const logo = $("#brandLogo"); if (logo) logo.alt = owner + " logo";
+    document.title = title + (CFG.tagline ? " · " + CFG.tagline : "");
+
+    const root = document.documentElement.style;
+    if (Array.isArray(CFG.gradient) && CFG.gradient.length === 3) {
+      const g = CFG.gradient;
+      root.setProperty("--sky", g[0]); root.setProperty("--peri", g[1]); root.setProperty("--lav", g[2]);
+      const defs = ["#foxStop0", "#foxStop1", "#foxStop2"];
+      g.forEach((c, i) => { const s = $(defs[i]); if (s) s.setAttribute("stop-color", c); });
+    } else if (CFG.accent) {
+      root.setProperty("--peri", CFG.accent);
+      ["#foxStop0", "#foxStop1", "#foxStop2"].forEach((id) => { const s = $(id); if (s) s.setAttribute("stop-color", CFG.accent); });
+    }
+
+    const name = $("#brandName"); if (name) name.textContent = title;
+    const logo = $("#brandLogo");
+    if (logo) { if (CFG.logo) logo.src = CFG.logo; logo.alt = title + " logo"; }
     const tagEl = $("#brandTag");
     if (tagEl && CFG.tagline) {
       const w = CFG.tagline.trim().split(/\s+/);
       const last = w.pop();
       tagEl.innerHTML = (w.length ? w.join(" ") + " " : "") + "<b>" + last + "</b>";
-    }
-    const link = $("#siteLink");   // auto-built from the site → shown only when a site is set
+    } else if (tagEl) { tagEl.textContent = ""; }
+
+    const link = $("#siteLink");
     if (link) {
       if (HAS_SITE) { link.href = SITE + "/"; link.textContent = label + " ↗"; }
       link.style.display = HAS_SITE ? "" : "none";
     }
     const foot = $(".foot");
     if (foot) {
-      foot.innerHTML = HAS_SITE
-        ? `<span>Built by <a href="${SITE}/" target="_blank" rel="noopener">${owner}</a>.</span>`
-        : `<span>Built by ${owner}.</span>`;
+      // Always credit the builder's author (belleelene), then the map's own owner.
+      let html = 'Built by <a href="https://belleelene.com/" target="_blank" rel="noopener">belleelene</a>';
+
+      if (by && by.trim().toLowerCase() !== "belleelene") {
+        html += HAS_SITE
+          ? ` · Edits by <a href="${SITE}/" target="_blank" rel="noopener">${by}</a>`
+          : ` · Edits by ${by}`;
+      }
+
+      html += ` · Make your <a href="builder.html"> own map</a>`;
+
+      foot.innerHTML = `<span>${html}.</span>`;
     }
+    renderCards();
+  }
+
+  function renderCards() {
+    const box = $("#extras");
+    if (!box) return;
+    const cards = CFG.cards || [];
+    if (!cards.length) { box.style.display = "none"; box.innerHTML = ""; return; }
+    box.style.display = "";
+    box.innerHTML =
+      (CFG.cardsTitle ? `<h2 class="section-title">${CFG.cardsTitle}</h2>` : "") +
+      `<div class="cards">` +
+      cards.map((c) =>
+        `<a class="card" href="${c.href}" target="_blank" rel="noopener">` +
+        (c.emoji ? `<div class="emoji">${c.emoji}</div>` : "") +
+        `<h3>${c.title || ""}</h3><p>${c.text || ""}</p>` +
+        (c.cta ? `<span class="go">${c.cta}</span>` : "") + `</a>`).join("") +
+      `</div>`;
+  }
+
+  const ICONS = window.MAP_ICONS || {};
+  function tabIcon(icon) {
+    if (icon && ICONS[icon])
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[icon]}</svg>`;
+    return icon ? `<span class="tab-ico">${icon}</span>` : "";
+  }
+  function buildTabs() {
+    const tabsEl = $(".tabs");
+    if (!tabsEl) return;
+    tabsEl.innerHTML = LAYERS.map((l, i) =>
+      `<button class="tab" role="tab" data-tab="${l.id}" aria-selected="${i === 0}">` +
+      tabIcon(l.icon) + `${l.label || l.id}</button>`).join("");
+    tabsEl.querySelectorAll(".tab").forEach((t) =>
+      t.addEventListener("click", () => setTab(t.dataset.tab)));
   }
 
   function init() {
     applyConfig();
-    document.querySelectorAll(".tab").forEach((t) =>
-      t.addEventListener("click", () => setTab(t.dataset.tab)));
+    buildTabs();
 
+    if (!TIMELINE) { const s = $(".slider"); if (s) s.style.display = "none"; }
     const range = $("#range");
-    range.addEventListener("input", () => { year = Number(range.value); paint(); });
-    range.addEventListener("change", () => { year = Number(range.value); frameCurrent(); });
+    if (range) {
+      range.addEventListener("input", () => { year = Number(range.value); paint(); });
+      range.addEventListener("change", () => { year = Number(range.value); frameCurrent(); });
+    }
 
-    configureSlider("countries");
+    if (activeId) setTab(activeId);
 
     window.addEventListener("resize", () => map.invalidateSize());
     setTimeout(() => map.invalidateSize(), 200);
