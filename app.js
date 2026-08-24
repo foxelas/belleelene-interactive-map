@@ -452,7 +452,6 @@
   function applyConfig() {
     const owner = CFG.owner || "belleelene";
     const label = CFG.siteLabel || SITE.replace(/^https?:\/\//, "");
-    const showChrome = CFG.showExtras !== false;   // cards + footer (explicit content)
     document.title = owner + (CFG.tagline ? " · " + CFG.tagline : "");
     const name = $("#brandName"); if (name) name.textContent = owner;
     const logo = $("#brandLogo"); if (logo) logo.alt = owner + " logo";
@@ -462,19 +461,17 @@
       const last = w.pop();
       tagEl.innerHTML = (w.length ? w.join(" ") + " " : "") + "<b>" + last + "</b>";
     }
-    const link = $("#siteLink");   // auto-built from the site → needs a site
+    const link = $("#siteLink");   // auto-built from the site → shown only when a site is set
     if (link) {
       if (HAS_SITE) { link.href = SITE + "/"; link.textContent = label + " ↗"; }
-      link.style.display = (HAS_SITE && showChrome) ? "" : "none";
+      link.style.display = HAS_SITE ? "" : "none";
     }
     const foot = $(".foot");
     if (foot) {
       foot.innerHTML = HAS_SITE
         ? `<span>Built by <a href="${SITE}/" target="_blank" rel="noopener">${owner}</a>.</span>`
         : `<span>Built by ${owner}.</span>`;
-      foot.style.display = showChrome ? "" : "none";
     }
-    const extras = $("#extras"); if (extras) extras.style.display = showChrome ? "" : "none";  // cards = explicit links
   }
 
   function init() {

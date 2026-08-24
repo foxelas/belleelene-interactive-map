@@ -3,7 +3,6 @@ const CONFIG = {
   tagline:    "a map of my wanderings",    // header sub-line
   site:       "https://belleelene.com",    // personal site; also the base for tag links
   siteLabel:  "belleelene.com",            // text on the header link
-  showExtras: true,                        // false → hide the site link, footer credit and the cards
 };
 
 const TRAVELS = {
