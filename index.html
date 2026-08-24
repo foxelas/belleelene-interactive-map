@@ -1,443 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>belleelene · a map of my wanderings</title>
+  <meta name="description" content="An interactive map of the countries, mountains and islands I've travelled — year by year." />
 
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Elena - foxelas.github.io" />
-    <meta name="copyright" content="Creative Commons BY-NC 4.0" />
-    <title>belleelene's blog article map</title>
+  <link rel="icon" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-    <link href="css/map.css" rel="stylesheet" type="text/css" />
-    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Roboto:100,300,400,700,900' rel='stylesheet' type='text/css'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
-
-    <link rel="apple-touch-icon" sizes="76x76" href="images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-    <link rel="manifest" href="images/site.webmanifest">
-    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-
-  </head>
-
-
+  <link rel="stylesheet" href="vendor/leaflet.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
 <body>
-<h1>belleelene's blog article map of Japan</h1>
-<p class="description">This doesn&rsquo;t look great at small sizes.<strong>Click the points to expand them.</strong></p>
-<div class="distribution-map">
-    <img src="images/map_stars.png" alt="" />
 
-        <!--General-->
-        <button class="map-point" style="top:10%;left:55%">
-            <div class="content">
-                <div class="centered-y">
-                    <h2>Festivals</h2>
-                    <p>
-                        <a href="https://belleelene.com/2022/04/13/hanami-2022/">Hanami</a>, 
-                        <a href="https://belleelene.com/2020/08/14/obon-dancing-in-the-heat-of-the-summer/">Obon</a>,
-                        <a href="https://belleelene.com/2021/10/27/the-pink-extravaganza-of-kanamara-matsuri/">Kanamara</a>,
-                        <a href="https://belleelene.com/2022/05/06/kurayami/">Kurayami</a>  
-                    </p>
-                </div>
-            </div>
-        </button>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="foxGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"  stop-color="#7ec6f0" />
+        <stop offset="52%" stop-color="#9db4f0" />
+        <stop offset="100%" stop-color="#c4b0e8" />
+      </linearGradient>
+      <linearGradient id="homeGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"  stop-color="#f8d976" />
+        <stop offset="100%" stop-color="#eaa64c" />
+      </linearGradient>
+    </defs>
+  </svg>
 
-        <button class="map-point" style="top:7%;left:65%">
-            <div class="content">
-                <div class="centered-y">
-                    <h2>Culture</h2>
-                    <p>
-                        <a href="https://belleelene.com/2020/08/30/shrine-stamps/">Goshuin</a>,
-                        <a href="https://belleelene.com/2021/03/15/the-hidden-japanese-art-of-onsen/">Onsen</a>,
-                        <a href="https://belleelene.com/2021/01/17/omiyage-meibutsu-theres-a-bit-of-everything/">Omiyage</a>,
-                        <a href="https://belleelene.com/2020/12/08/little-x-of-japan/">Copies</a>
-                    </p>
-                </div>
-            </div>
-        </button>
+  <div class="wrap">
 
-        <button class="map-point" style="top:10%;left:75%">
-            <div class="content">
-                <div class="centered-y">
-                    <h2>Hiking</h2>
-                    <p>
-                        <a href="https://belleelene.com/2021/12/12/tips-about-hiking-in-japan/">Tips</a>, 
-                        <a href="https://belleelene.com/category/japan/hiking/">Destinations</a>, 
-                        <a href="https://belleelene.com/2021/05/21/to-klima-tis-iapwnias/">Climate</a>  
-                    </p>
-                </div>
-            </div>
-        </button>
+    <header class="top">
+      <img class="logo" id="brandLogo" src="logo.png" alt="belleelene fox logo" />
+      <div class="brand">
+        <h1 id="brandName">belleelene</h1>
+        <div class="tag" id="brandTag">a map of my <b>wanderings</b></div>
+      </div>
+      <span class="spacer"></span>
+      <a class="site-link" id="siteLink" href="https://belleelene.com/" target="_blank" rel="noopener">belleelene.com ↗</a>
+    </header>
 
-        <button class="map-point" style="top:7%;left:85%">
-            <div class="content">
-                <div class="centered-y">
-                    <h2>Events</h2>
-                    <p>
-                        <a href="https://belleelene.com/2020/10/17/tsukimi-the-mid-autumn-celebration-of-the-moon/">Tsukimi</a>, 
-                        <a href="https://belleelene.com/2020/11/23/downtown-tokyo-hibiya-area/">Sichigosan</a>, 
-                        <a href="https://belleelene.com/2022/01/10/seijin-no-hi-2022/">Seijin no Hi</a>, 
-                        <a href="https://belleelene.com/2021/07/07/to-zeugari-ton-asterion-kai-i-tanabata/">Tanabata</a>   
-                    </p>
-                </div>
-            </div>
-        </button>
-
-        <button class="map-point" style="top:10%;left:95%">
-            <div class="content">
-                <div class="centered-y">
-                    <h2>Info bites</h2>
-                    <p>
-                        <a href="https://belleelene.com/2022/10/20/ama/">Ama divers</a>, 
-                        <a href="https://belleelene.com/2022/11/27/info-bites-sushi-restaurants/">Sushi restaurants</a>,
-                        <a href="https://belleelene.com/2022/11/20/info-bites-sarcasm/">Sarcasm</a>, 
-                        <a href="https://belleelene.com/2022/11/13/jindai-moji/">Jindai moji conspiracy</a>   
-                    </p>
-                </div>
-            </div>
-        </button>
-
-
-    <!--Hokkaido-->
-    <button class="map-point" style="top:25%;left:80%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Hokkaido</h2>
-                <p>
-                    <a href="https://belleelene.com/2021/06/06/roadtrip-to-hokkaido-looking-for-the-natives/">Lake Akan</a>, 
-                    <a href="https://belleelene.com/2021/06/19/roadtrip-to-hokkaido-all-is-white-pt-2/">Asahidake</a>, 
-                    <a href="https://belleelene.com/2021/06/27/roadtrip-to-hokkaido-the-stinky-valley-pt-3/">Noboribetsu</a>,
-                    <a href="https://belleelene.com/2021/05/15/the-roads-of-hokkaido/">The roads of Hokkaido</a>
-                </p>
-            </div>
+    <section class="console" aria-label="Interactive travel map">
+      <div class="console-head">
+        <div class="tabs" role="tablist" aria-label="Choose a map">
+          <button class="tab" role="tab" data-tab="countries" aria-selected="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
+            Countries
+          </button>
+          <button class="tab" role="tab" data-tab="mountains" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 20 L10 7 L14 14 L16.5 10 L21 20 Z"/></svg>
+            Mountains
+          </button>
+          <button class="tab" role="tab" data-tab="islands" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3c3 3 3 7 0 9-3-2-3-6 0-9Z"/><path d="M3 17c1.5 1.5 3 1.5 4.5 0S10.5 15.5 12 17s3 1.5 4.5 0S19.5 15.5 21 17"/><path d="M3 21c1.5 1.5 3 1.5 4.5 0S10.5 19.5 12 21s3 1.5 4.5 0S19.5 19.5 21 21"/></svg>
+            Islands
+          </button>
+          <button class="tab" role="tab" data-tab="japanblog" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M6 5v15M18 5v15M4 20h16M9 9h6M9 13h6"/></svg>
+            Japan blog
+          </button>
         </div>
-    </button>
+        <div class="stats" aria-live="polite">
+          <div class="big" id="statBig">—</div>
+          <div class="sub" id="statSub"></div>
+        </div>
+      </div>
 
-    <!--Tohoku-->
-    <button class="map-point" style="top:53%;left:75%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Miyagi</h2>
-                <p>
-                    <a href="https://belleelene.com/2022/10/05/matsushima/">Matsushima (GR)</a>,
-                    <a href="https://belleelene.com/2021/03/10/in-memory-of-311-the-town-of-yamamotocho/">Yamamotocho</a>
-                </p>
-            </div>
-        </div>
-    </button>
+      <div class="map-shell">
+        <div id="map"></div>
+        <div class="map-fade"></div>
+        <div class="year-list" id="yearList"></div>
+        <div class="year-list themes" id="themes"></div>
+        <div class="legend" id="legend"></div>
+      </div>
 
-    <button class="map-point" style="top:58%;left:75%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Fukushima</h2>
-                <p>
-                    <a href="https://belleelene.com/2023/06/26/goshikinuma/">Goshikinuma</a>, 
-                    <a href="https://belleelene.com/2022/08/30/adatara/">Mt Adatara</a>
-                </p>
-            </div>
+      <div class="slider">
+        <div class="slider-top">
+          <div class="year-now all" id="yearNow"><em>All years</em></div>
         </div>
-    </button>
-    
-    <!--Kanto-->
+        <div class="range-row">
+          <input type="range" class="years" id="range" aria-label="Filter by year" />
+          <div class="ticks" id="ticks"></div>
+        </div>
+      </div>
+    </section>
 
-    
-    <button class="map-point" style="top:68%;left:70%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Tokyo</h2>
-                <p>
-                    <a href="https://belleelene.com/2021/05/08/sengakuji-and-the-graves-of-the-47-ronin/">47 ronin</a>, 
-                    <a href="https://belleelene.com/2020/12/04/attempting-oshima-2-a-weekend-in-izu-oshima/">Izu Isles</a>, 
-                    <a href="https://belleelene.com/2022/02/10/city-life-harajuku-amp-togo-shrine/">Harajuku & Togo Shrine</a>, 
-                    <a href="https://belleelene.com/2020/11/20/a-quiet-koyo-season-in-university-of-tokyo/">Shitamachi</a>
-                </p>
-            </div>
-        </div>
-    </button>
+    <div id="extras">
+    <h2 class="section-title">More from Japan</h2>
+    <div class="cards">
+      <a class="card" href="https://www.google.com/maps/d/viewer?mid=1NTi-fD3IQrFvc43EskQvIIH0VhAumBef" target="_blank" rel="noopener">
+        <div class="emoji">📍</div>
+        <h3>Recommended Places</h3>
+        <p>A hand-picked map of belleelene’s favourite spots to visit, eat and wander across Japan.</p>
+        <span class="go">Open the recommendations →</span>
+      </a>
+      <a class="card" href="https://belleelene.com/about/a-log-of-my-visits-using-goshuin-stamps/" target="_blank" rel="noopener">
+        <div class="emoji">🖌️</div>
+        <h3>Goshuin Collection</h3>
+        <p>A growing log of goshuin — the calligraphic shrine &amp; temple stamps gathered along the way.</p>
+        <span class="go">See the collection →</span>
+      </a>
+      <a class="card" href="https://zhung.com.tw/japanex/?t=5Y6M#15345440000044344400044044400441144334444400004" target="_blank" rel="noopener">
+        <div class="emoji">🗾</div>
+        <h3>Japan Status</h3>
+        <p>Every Japanese prefecture I’ve set foot in, coloured in on the japanex tracker.</p>
+        <span class="go">View the prefecture map →</span>
+      </a>
+    </div>
+    </div>
 
-    <button class="map-point" style="top:71%;left:70%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Kanagawa</h2>
-                <p>
-                    <a href="https://belleelene.com/2024/05/23/kamakura/">Kamakura (GR)</a>,
-                    <a href="https://belleelene.com/2022/11/10/engakuji/">Kamakura Enkakuji</a>, 
-                    <a href="https://belleelene.com/2022/09/08/hakone/">Hakone (GR)</a>,
-                    <a href="https://belleelene.com/2021/03/07/day-trip-from-tokyo-sarushima-island/">Yokosuka</a>,
-                    <a href="https://belleelene.com/2022/02/24/day-trip-from-tokyo-miura/">Miura</a>, 
-                    <a href="https://belleelene.com/2021/01/31/kira-kira-enoshima/">Enoshima</a>,
-                    <a href="https://belleelene.com/2018/01/10/day-trip-from-tokyo-odawara-castle/">Odawara</a>
-                </p>
-            </div>
-        </div>
-    </button>
+    <footer class="foot">
+      <span>Built by <a href="https://belleelene.com/" target="_blank" rel="noopener">belleelene</a>.</span>
+    </footer>
+  </div>
 
-    <button class="map-point" style="top:70%;left:75%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Chiba</h2>
-                <p>
-                    <a href="https://belleelene.com/2022/05/26/sawara/">Sawara</a>,
-                    <a href="https://belleelene.com/2021/11/11/day-hike-from-tokyo-the-other-giant-buddha/">Mt Nokogiri</a>,
-                    <a href="https://belleelene.com/2024/08/29/narita/">Narita-san</a>
-                </p>
-            </div>
-        </div>
-    </button>
+  <div class="toast" id="toast" role="status"></div>
 
-    <button class="map-point" style="top:65%;left:75%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Ibaraki</h2>
-                <p>
-                    <a href="https://belleelene.com/2022/07/08/yokaren/">Ibaraki Yokaren</a>,
-                    <a href="https://belleelene.com/2020/07/11/day-hike-in-mt-tsukuba/">Mt. Tsukuba</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:64%;left:67%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Gunma</h2>
-                <p>
-                    <a href="https://belleelene.com/2023/01/26/tanuki/">Tatebayashi (GR)</a> 
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:63%;left:71%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Tochigi</h2>
-                <p>
-                    <a href="https://belleelene.com/2023/11/03/nikko/">Nikko (GR)</a> 
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:66%;left:70%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Saitama</h2>
-                <p>
-                    <a href="https://belleelene.com/2023/11/28/kawagoe/">Kawagoe (GR)</a>,
-                    <a href="https://belleelene.com/2021/06/13/monoimeri-ekdromi-chichibu/">Chichibu (GR)</a>,
-                    <a href="https://belleelene.com/2021/12/21/ippokratis-saitama/">Moroyama (GR)</a>,
-                    <a href="https://belleelene.com/2022/12/08/takayama-fudoson/">Hanno Takayama Fudoson</a>
-                </p>
-            </div>
-        </div>
-    </button>
-    
-
-    <!--Chubu-->
-    <button class="map-point" style="top:65%;left:62%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Nagano</h2>
-                <p>
-                    <a href="https://belleelene.com/2021/12/18/roadtrip-to-narai-juku-in-nagano/">Naraijuku</a>,
-                    <a href="https://belleelene.com/2021/05/28/ta-kastra/">Matsumoto (GR)</a>,
-                    <a href="https://belleelene.com/2024/09/19/westjapan/">Romantic Road (GR)</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:73%;left:65%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Shizuoka</h2>
-                <p>
-                    <a href="https://belleelene.com/2023/05/03/fuji-gr/">Mt Fuji (GR)</a>, 
-                    <a href="https://belleelene.com/2024/04/11/amagi/">Mt Amagi</a>, 
-                    <a href="https://belleelene.com/2024/05/02/shibazakura/">Shibazakura</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:70%;left:65%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Yamanashi</h2>
-                <p>
-                    <a href="https://belleelene.com/2020/07/09/chureito-pagoda/">Fujiyoshida Chureito Pagoda</a>, 
-                    <a href="https://belleelene.com/2024/05/09/fivelakes/">Fuji Five lakes</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:65%;left:52%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Ishikawa</h2>
-                <p>
-                    <a href="https://belleelene.com/2021/02/12/roadtrip-to-gifu-kanazawa-challenging-el-dorado-pt-3/">Kanazawa</a>
-                </p>
-            </div>
-        </div>
-    </button>
-    
-    <button class="map-point" style="top:70%;left:58%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Gifu</h2>
-                <p>
-                    <a href="https://belleelene.com/2021/01/24/roadtrip-all-white-shirakawago-hida-and-kanazawa/">Takayama</a>,
-                    <a href="https://belleelene.com/2021/01/30/roadtrip-to-gifu-the-charms-of-shirakawago-pt-2/">Shirakawago</a>
-            </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:74%;left:57%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Aichi</h2>
-                <p>
-                    <a href="https://belleelene.com/2023/10/12/nagoya/">Nagoya (GR)</a>, 
-                    <a href="https://belleelene.com/2023/10/14/toyota/">Toyota (GR)</a>,
-                    <a href="https://belleelene.com/2022/08/13/shinkansen/">Bullet train (GR)</a>
-                </p>
-            </div>
-        </div>
-    </button>
-    
-    <!--Kansai-->
-    <button class="map-point" style="top:77%;left:53%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Mie</h2>
-                <p>
-                    <a href="https://belleelene.com/2020/08/27/mie-the-land-of-amaterasu/">Ise Jingu</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:78%;left:51%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Nara</h2>
-                <p>
-                    <a href="https://belleelene.com/2024/11/28/nara/">Nara's deer (GR)</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:75%;left:48%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Osaka</h2>
-                <p>
-                    <a href="https://belleelene.com/2024/02/15/osaka/">Osaka (GR)</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:73%;left:45%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Kobe</h2>
-                <p>
-                    <a href="https://belleelene.com/2024/02/15/osaka/">Kobe (GR)</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:73%;left:49%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Kyoto</h2>
-                <p>
-                    <a href="https://belleelene.com/2022/11/24/kyoto-basics/">Kyoto basics (GR)</a>,
-                    <a href="https://belleelene.com/2018/02/17/thoughts-from-kyoto/">Fushimi inari</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <!--Kyushu-->
-    <button class="map-point" style="top:89%;left:25%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Miyazaki</h2>
-                <p>
-                    <a href="https://belleelene.com/2023/01/12/miyazaki/">Takachiho (GR)</a>
-                </p>
-            </div>
-        </div>
-    </button>
-    <button class="map-point" style="top:85%;left:25%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Oita</h2>
-                <p>
-                    <a href="https://belleelene.com/2022/12/29/beppu/">Beppu (GR)</a>, 
-                    <a href="https://belleelene.com/2022/11/03/kuju/">Mt Kuju</a>
-                </p>
-            </div>
-        </div>
-    </button>
-    <button class="map-point" style="top:90%;left:15%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Nagasaki</h2>
-                <p>
-                    <a href="https://belleelene.com/2022/12/23/nagasaki/">Gunkanjima (GR)</a>
-                </p>
-            </div>
-        </div>
-    </button>
-    <button class="map-point" style="top:92%;left:20%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Kagoshima</h2>
-                <p>
-                    <a href="https://belleelene.com/2020/09/11/imo-re-to-the-amamis-a-turbulent-stay-in-amami-oshima/">Amami-Oshima</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-
-    <!--Okinawa-->
-    <button class="map-point" style="top:90%;left:90%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Okinawa</h2>
-                <p>
-                    <a href="https://belleelene.com/2023/08/09/naha/">Naha (GR)</a>, 
-                    <a href="https://belleelene.com/2023/09/13/nago/">Nago (GR)</a>
-                </p>
-            </div>
-        </div>
-    </button>
-
-    <button class="map-point" style="top:89%;left:88%">
-        <div class="content">
-            <div class="centered-y">
-                <h2>Okinawa</h2>
-                <p>
-                    <a href="https://belleelene.com/2023/07/25/zamami/">Zamami island (GR)</a>
-                </p>
-            </div>
-        </div>
-    </button>
-</div>
-
-
+  <script src="vendor/leaflet.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
 </body>
+</html>
