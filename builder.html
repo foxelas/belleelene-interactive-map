@@ -102,7 +102,7 @@
     <section class="panel" id="panel-export">
       <div class="box">
         <h2>Export</h2>
-        <p class="hint">Download <code class="inline">data.js</code> and drop it into your map folder — that's the only file that changes.</p>
+        <p class="hint">Download <code class="inline">data.js</code> and drop it into your map folder. That's the only file that changes.</p>
         <div class="btn-row">
           <button class="btn primary" id="downloadBtn" type="button">⤓ Download data.js</button>
           <button class="btn" id="copyBtn" type="button">Copy to clipboard</button>
@@ -116,14 +116,6 @@
 
       <div class="box">
         <h2>How to use it</h2>
-        <details class="acc" open><summary>How your edits become <code class="inline">data.js</code> (live)</summary><div class="body">
-          <p>Nothing here is written to a file automatically — it works in two stages:</p>
-          <ol>
-            <li><b>While you edit</b> — everything you type is saved live in <i>this browser</i> and the <b>Preview</b> tab re-renders instantly, so you can design the whole map without touching any files.</li>
-            <li><b>When you're happy</b> — your entire map (brand, layers, every row) lives in one file, <code class="inline">data.js</code>. Click <b>Download data.js</b> above, drop it into your map folder (replacing the old one), and reload the map — your changes are now live on the site. That one file <i>is</i> your content; the map reads it on load.</li>
-          </ol>
-          <p>To keep editing later, use <b>Import data.js</b> to load that file straight back into the builder.</p>
-        </div></details>
         <details class="acc"><summary>Run it locally</summary><div class="body">
           <p>Put <code class="inline">data.js</code> next to <code class="inline">index.html</code>, then from that folder run:</p>
           <pre class="code">python3 -m http.server 8777</pre>
@@ -143,7 +135,7 @@
         loading="lazy"&gt;&lt;/iframe&gt;</pre>
         </div></details>
         <details class="acc"><summary>Use your own domain (subdomain)</summary><div class="body">
-          <p>You don't need to buy anything — GitHub Pages is enough. To serve the map from a subdomain of a site you already own, e.g. <code class="inline">maps.yoursite.com</code> → your repo, use a <b>CNAME</b> record. (WordPress.com supports pointing a subdomain to an external site this way.)</p>
+          <p>You don't need to buy anything, GitHub Pages is enough. To serve the map from a subdomain of a site you already own, e.g. <code class="inline">maps.yoursite.com</code> → your repo, use a <b>CNAME</b> record. (WordPress.com supports pointing a subdomain to an external site this way.)</p>
           <p><b>1. In your DNS screen</b>, add:</p>
           <table class="dns">
             <tr><th>Type</th><td>CNAME</td></tr>
@@ -151,9 +143,16 @@
             <tr><th>Points to / alias of</th><td><code class="inline">USERNAME.github.io</code></td></tr>
             <tr><th>TTL</th><td>3600</td></tr>
           </table>
-          <p class="warn-note">⚠︎ Point only to <code class="inline">USERNAME.github.io</code> — <b>not</b> a full URL and <b>not</b> the repo path. DNS has no concept of <code class="inline">https://</code> or <code class="inline">/REPO/</code>. GitHub maps the repository for you in the next step.</p>
-          <p><b>2. In GitHub</b>, open <b>Settings → Pages → Custom domain</b>, enter <code class="inline">maps.yoursite.com</code> and save. GitHub verifies the DNS and provisions HTTPS automatically; once the certificate is ready, tick <b>Enforce HTTPS</b>.</p>
-          <p>Your project's Pages site (previously at <code class="inline">USERNAME.github.io/REPO/</code>) is now served at <code class="inline">maps.yoursite.com</code> — no need to encode <code class="inline">/REPO/</code> anywhere in DNS.</p>
+          <p class="warn-note">⚠︎ Point only to <code class="inline">USERNAME.github.io</code>, <b>not</b> a full URL and <b>not</b> the repo path. DNS has no concept of <code class="inline">https://</code> or <code class="inline">/REPO/</code>. GitHub maps the repository for you in the next step.</p>
+          <p><b>2. In GitHub</b>, open <b>Settings → Pages → Custom domain</b>, enter <code class="inline">maps.yoursite.com</code> and save. GitHub verifies the DNS and provisions HTTPS automatically.
+        </div></details>
+        <details class="acc" open><summary>How your edits become <code class="inline">data.js</code> (live)</summary><div class="body">
+          <p>Nothing here is written to a file automatically. It works in two stages:</p>
+          <ol>
+            <li><b>While you edit</b> - everything you type is saved live in <i>this browser</i> and the <b>Preview</b> tab re-renders instantly, so you can design the whole map without touching any files.</li>
+            <li><b>When you're happy</b> - your entire map (brand, layers, every row) lives in one file, <code class="inline">data.js</code>. Click <b>Download data.js</b> above, drop it into your map folder (replacing the old one), and reload the map. Your changes are now live on the site. That one file <i>is</i> your content; the map reads it on load.</li>
+          </ol>
+          <p>To keep editing later, use <b>Import data.js</b> to load that file straight back into the builder.</p>
         </div></details>
       </div>
     </section>
