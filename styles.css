@@ -5,6 +5,7 @@
   --deep:     #2f74b5;
   --peri:     #9db4f0;
   --lav:      #c4b0e8;
+  --accent:   #9db4f0;
 
   --home1:      #f8d976;
   --home2:      #eaa64c;
@@ -99,6 +100,7 @@ header.top {
   display: inline-flex; align-items: center; gap: 8px;
 }
 .tab svg { width: 16px; height: 16px; }
+.tab-ico { font-size: 15px; line-height: 1; }
 .tab:hover { color: var(--ink); }
 .tab[aria-selected="true"] {
   background: var(--card); color: var(--deep);
@@ -114,11 +116,11 @@ header.top {
 .stats .sub { font-size: 12.5px; color: var(--ink-soft); }
 
 .themes { display: none; }
-.console.mode-japan .themes { display: flex; }
-.console.mode-japan .slider,
-.console.mode-japan .stats,
-.console.mode-japan #yearList,
-.console.mode-japan .legend { display: none; }
+.console.mode-places .themes { display: flex; }
+.console.mode-places .slider,
+.console.mode-places .stats,
+.console.mode-places #yearList,
+.console.mode-places .legend { display: none; }
 
 .blog-pin svg { filter: drop-shadow(0 3px 5px rgba(47,116,181,.4)); transition: transform .15s; }
 .blog-pin:hover svg { transform: scale(1.2); }
@@ -191,6 +193,9 @@ header.top {
 .pin:hover svg { transform: scale(1.18) translateY(-2px); }
 .pin.no-link { cursor: default; }
 .pin.no-link:hover svg { transform: none; }
+.pin-emoji span { font-size: 24px; line-height: 1; filter: drop-shadow(0 3px 4px rgba(47,116,181,.4)); transition: transform .15s; }
+.pin-emoji:hover span { transform: scale(1.18) translateY(-2px); }
+.pin-emoji.no-link:hover span { transform: none; }
 
 .chooser-popup .leaflet-popup-content-wrapper {
   border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--line);
@@ -243,6 +248,7 @@ header.top {
 .leaflet-tooltip.tt::before { display: none; }
 .tt .tt-name { font-family: var(--serif); font-weight: 600; font-size: 14.5px; }
 .tt .tt-meta { color: var(--ink-soft); font-size: 12px; margin-top: 2px; }
+.tt .tt-note { color: var(--ink); font-size: 12px; margin-top: 4px; max-width: 200px; }
 .tt .tt-go { color: var(--deep); font-size: 11.5px; font-weight: 700; margin-top: 4px;
   letter-spacing: .03em; text-transform: uppercase; }
 
@@ -361,7 +367,7 @@ footer.foot a { color: var(--deep); text-decoration: none; font-weight: 600; }
   .tabs { width: 100%; justify-content: space-between; gap: 2px; padding: 3px; }
   .tab { flex: 1 1 0; min-width: 0; justify-content: center; gap: 0;
     padding: 8px 4px; font-size: 12.5px; letter-spacing: -.01em; }
-  .tab svg { display: none; }
+  .tab svg, .tab-ico { display: none; }
   .stats { margin-left: 0; text-align: left; width: 100%; order: 3; }
   .stats .big { font-size: 22px; }
 

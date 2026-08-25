@@ -19,9 +19,9 @@
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <linearGradient id="foxGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%"  stop-color="#7ec6f0" />
-        <stop offset="52%" stop-color="#9db4f0" />
-        <stop offset="100%" stop-color="#c4b0e8" />
+        <stop id="foxStop0" offset="0%"  stop-color="#7ec6f0" />
+        <stop id="foxStop1" offset="52%" stop-color="#9db4f0" />
+        <stop id="foxStop2" offset="100%" stop-color="#c4b0e8" />
       </linearGradient>
       <linearGradient id="homeGrad" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0%"  stop-color="#f8d976" />
@@ -44,24 +44,7 @@
 
     <section class="console" aria-label="Interactive travel map">
       <div class="console-head">
-        <div class="tabs" role="tablist" aria-label="Choose a map">
-          <button class="tab" role="tab" data-tab="countries" aria-selected="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
-            Countries
-          </button>
-          <button class="tab" role="tab" data-tab="mountains" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 20 L10 7 L14 14 L16.5 10 L21 20 Z"/></svg>
-            Mountains
-          </button>
-          <button class="tab" role="tab" data-tab="islands" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3c3 3 3 7 0 9-3-2-3-6 0-9Z"/><path d="M3 17c1.5 1.5 3 1.5 4.5 0S10.5 15.5 12 17s3 1.5 4.5 0S19.5 15.5 21 17"/><path d="M3 21c1.5 1.5 3 1.5 4.5 0S10.5 19.5 12 21s3 1.5 4.5 0S19.5 19.5 21 21"/></svg>
-            Islands
-          </button>
-          <button class="tab" role="tab" data-tab="japanblog" aria-selected="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M6 5v15M18 5v15M4 20h16M9 9h6M9 13h6"/></svg>
-            Japan blog
-          </button>
-        </div>
+        <div class="tabs" role="tablist" aria-label="Choose a map"></div>
         <div class="stats" aria-live="polite">
           <div class="big" id="statBig">—</div>
           <div class="sub" id="statSub"></div>
@@ -87,38 +70,20 @@
       </div>
     </section>
 
-    <div id="extras">
-    <h2 class="section-title">More from Japan</h2>
-    <div class="cards">
-      <a class="card" href="https://www.google.com/maps/d/viewer?mid=1NTi-fD3IQrFvc43EskQvIIH0VhAumBef" target="_blank" rel="noopener">
-        <div class="emoji">📍</div>
-        <h3>Recommended Places</h3>
-        <p>A hand-picked map of belleelene’s favourite spots to visit, eat and wander across Japan.</p>
-        <span class="go">Open the recommendations →</span>
-      </a>
-      <a class="card" href="https://belleelene.com/about/a-log-of-my-visits-using-goshuin-stamps/" target="_blank" rel="noopener">
-        <div class="emoji">🖌️</div>
-        <h3>Goshuin Collection</h3>
-        <p>A growing log of goshuin — the calligraphic shrine &amp; temple stamps gathered along the way.</p>
-        <span class="go">See the collection →</span>
-      </a>
-      <a class="card" href="https://zhung.com.tw/japanex/?t=5Y6M#15345440000044344400044044400441144334444400004" target="_blank" rel="noopener">
-        <div class="emoji">🗾</div>
-        <h3>Japan Status</h3>
-        <p>Every Japanese prefecture I’ve set foot in, coloured in on the japanex tracker.</p>
-        <span class="go">View the prefecture map →</span>
-      </a>
-    </div>
-    </div>
+    <div id="extras"></div>
 
     <footer class="foot">
-      <span>Built by <a href="https://belleelene.com/" target="_blank" rel="noopener">belleelene</a>.</span>
+      <span>
+        Built by <a href="https://belleelene.com/" target="_blank" rel="noopener">belleelene</a>.
+        Make your <a href="builder.html">own map</a>.
+      </span>
     </footer>
   </div>
 
   <div class="toast" id="toast" role="status"></div>
 
   <script src="vendor/leaflet.js"></script>
+  <script src="icons.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>

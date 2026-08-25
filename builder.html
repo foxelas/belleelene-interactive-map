@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Map Builder</title>
+  <link rel="icon" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="vendor/leaflet.css" />
+  <link rel="stylesheet" href="builder.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <h1>Map Builder</h1>
+      <div class="sub">design your own <b>interactive map</b></div>
+      <span class="spacer"></span>
+      <span class="save-dot" id="saveDot">saved</span>
+    </header>
+
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-panel="brand">Brand</button>
+      <button class="tab" data-panel="layers">Layers</button>
+      <button class="tab" data-panel="data">Data</button>
+      <button class="tab" data-panel="preview">Preview</button>
+      <button class="tab" data-panel="export">Export &amp; Publish</button>
+    </nav>
+
+    <!-- BRAND -->
+    <section class="panel active" id="panel-brand">
+      <div class="box">
+        <h2>Brand</h2>
+        <p class="hint">The title, tagline and colours shown around your map.</p>
+        <div class="grid">
+          <label class="field">Title <input type="text" id="c-title" placeholder="my map" /></label>
+          <label class="field">Tagline <input type="text" id="c-tagline" placeholder="a map of my wanderings" /></label>
+          <label class="field">Website URL <input type="url" id="c-site" placeholder="https://example.com (optional)" /></label>
+          <label class="field">Website label <input type="text" id="c-siteLabel" placeholder="example.com" /></label>
+          <label class="field">Footer credit <input type="text" id="c-footerBy" placeholder="your name" /></label>
+          <label class="field">Link text <input type="text" id="c-linkLabel" placeholder="read more →" /></label>
+          <label class="field">Accent colour <span class="row-inline"><input type="color" id="c-accent" /><input type="text" id="c-accentHex" placeholder="#9db4f0" /></span></label>
+          <label class="field">Logo (URL or upload)
+            <span class="row-inline"><input type="text" id="c-logo" placeholder="logo.png" /><button class="btn sm" id="logoBtn" type="button">Upload</button></span>
+            <input type="file" id="logoFile" accept="image/*" hidden />
+          </label>
+          <label class="field">Year slider
+            <span class="row-inline"><input type="checkbox" id="c-timeline" /> <span>show the year timeline</span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="box">
+        <h2>Cards</h2>
+        <p class="hint">Optional link cards shown under the map (leave empty for none).</p>
+        <label class="field" style="margin-bottom:12px">Cards heading <input type="text" id="c-cardsTitle" placeholder="More resources" /></label>
+        <div id="cardsList"></div>
+        <div class="btn-row"><button class="btn sm" id="addCard" type="button">+ Add card</button></div>
+      </div>
+    </section>
+
+    <!-- LAYERS -->
+    <section class="panel" id="panel-layers">
+      <div class="box">
+        <h2>Layers (tabs)</h2>
+        <p class="hint">Each layer is a tab on your map. <b>Regions</b> shades countries; <b>Points</b> drops pins; <b>Places</b> is a grouped set of markers with a themes side-panel.</p>
+        <div id="layersList"></div>
+        <div class="btn-row"><button class="btn" id="addLayer" type="button">+ Add layer</button></div>
+      </div>
+    </section>
+
+    <!-- DATA -->
+    <section class="panel" id="panel-data">
+      <div class="box">
+        <h2>Data</h2>
+        <p class="hint">Pick a layer and fill its rows. Use <b>Pick on map</b> to grab coordinates by clicking.</p>
+        <div class="chooser-bar">
+          <label class="field" style="flex-direction:row;align-items:center;gap:8px">Layer
+            <select id="dataLayer"></select>
+          </label>
+          <span class="spacer"></span>
+          <button class="btn sm" id="addRow" type="button">+ Add row</button>
+        </div>
+        <div id="dataBody"></div>
+      </div>
+    </section>
+
+    <!-- PREVIEW -->
+    <section class="panel" id="panel-preview">
+      <div class="box">
+        <h2>Preview</h2>
+        <div class="pv-head">
+          <button class="btn primary sm" id="refreshPreview" type="button">↻ Refresh preview</button>
+          <span class="muted">Live view of your current map. Needs the builder to be served over http (see Export &amp; Publish).</span>
+        </div>
+        <iframe id="previewFrame" title="map preview"></iframe>
+      </div>
+    </section>
+
+    <!-- EXPORT -->
+    <section class="panel" id="panel-export">
+      <div class="box">
+        <h2>Export</h2>
+        <p class="hint">Download <code class="inline">data.js</code> and drop it into your map folder. That's the only file that changes.</p>
+        <div class="btn-row">
+          <button class="btn primary" id="downloadBtn" type="button">⤓ Download data.js</button>
+          <button class="btn" id="copyBtn" type="button">Copy to clipboard</button>
+          <button class="btn" id="importBtn" type="button">Import data.js</button>
+          <input type="file" id="importFile" accept=".js,.json,text/javascript" hidden />
+          <span class="spacer"></span>
+          <button class="btn ghost" id="resetBtn" type="button">Reset all</button>
+        </div>
+        <textarea class="export-area" id="exportArea" spellcheck="false" readonly></textarea>
+      </div>
+
+      <div class="box">
+        <h2>How to use it</h2>
+        <details class="acc"><summary>Run it locally</summary><div class="body">
+          <p>Put <code class="inline">data.js</code> next to <code class="inline">index.html</code>, then from that folder run:</p>
+          <pre class="code">python3 -m http.server 8777</pre>
+          <p>Open <code class="inline">http://localhost:8777</code>. A server is needed because the map loads <code class="inline">world.geojson</code>.</p>
+        </div></details>
+        <details class="acc"><summary>Publish free on GitHub Pages</summary><div class="body">
+          <ol>
+            <li>Create a new GitHub repository and upload all the map files (this folder), including your new <code class="inline">data.js</code>.</li>
+            <li>Open <b>Settings → Pages</b>, choose <b>Deploy from a branch</b>, pick <code class="inline">main</code> / root, save.</li>
+            <li>Your map goes live at <code class="inline">https://USERNAME.github.io/REPO/</code>.</li>
+          </ol>
+        </div></details>
+        <details class="acc"><summary>Embed it in your website</summary><div class="body">
+          <p>Once published, drop this into any page (adjust the URL):</p>
+          <pre class="code">&lt;iframe src="https://USERNAME.github.io/REPO/"
+        style="width:100%;height:640px;border:0"
+        loading="lazy"&gt;&lt;/iframe&gt;</pre>
+        </div></details>
+        <details class="acc"><summary>Use your own domain (subdomain)</summary><div class="body">
+          <p>You don't need to buy anything, GitHub Pages is enough. To serve the map from a subdomain of a site you already own, e.g. <code class="inline">maps.yoursite.com</code> → your repo, use a <b>CNAME</b> record. (WordPress.com supports pointing a subdomain to an external site this way.)</p>
+          <p><b>1. In your DNS screen</b>, add:</p>
+          <table class="dns">
+            <tr><th>Type</th><td>CNAME</td></tr>
+            <tr><th>Name / host</th><td><code class="inline">maps</code> <span class="muted">(just the subdomain label)</span></td></tr>
+            <tr><th>Points to / alias of</th><td><code class="inline">USERNAME.github.io</code></td></tr>
+            <tr><th>TTL</th><td>3600</td></tr>
+          </table>
+          <p class="warn-note">⚠︎ Point only to <code class="inline">USERNAME.github.io</code>, <b>not</b> a full URL and <b>not</b> the repo path. DNS has no concept of <code class="inline">https://</code> or <code class="inline">/REPO/</code>. GitHub maps the repository for you in the next step.</p>
+          <p><b>2. In GitHub</b>, open <b>Settings → Pages → Custom domain</b>, enter <code class="inline">maps.yoursite.com</code> and save. GitHub verifies the DNS and provisions HTTPS automatically.
+        </div></details>
+        <details class="acc" open><summary>How your edits become <code class="inline">data.js</code> (live)</summary><div class="body">
+          <p>Nothing here is written to a file automatically. It works in two stages:</p>
+          <ol>
+            <li><b>While you edit</b> - everything you type is saved live in <i>this browser</i> and the <b>Preview</b> tab re-renders instantly, so you can design the whole map without touching any files.</li>
+            <li><b>When you're happy</b> - your entire map (brand, layers, every row) lives in one file, <code class="inline">data.js</code>. Click <b>Download data.js</b> above, drop it into your map folder (replacing the old one), and reload the map. Your changes are now live on the site. That one file <i>is</i> your content; the map reads it on load.</li>
+          </ol>
+          <p>To keep editing later, use <b>Import data.js</b> to load that file straight back into the builder.</p>
+        </div></details>
+      </div>
+    </section>
+  </div>
+
+  <div class="emoji-pop" id="emojiPop"></div>
+
+  <div class="modal" id="pickModal">
+    <div class="sheet">
+      <h3>Find a place, or click the map</h3>
+      <div class="pick-search">
+        <input type="text" id="pickSearch" placeholder="Search a city, country or place name…" autocomplete="off" />
+        <button class="btn" id="pickSearchBtn" type="button">Search</button>
+      </div>
+      <div id="pickResults" class="pick-results"></div>
+      <div id="pickMap"></div>
+      <div class="foot">
+        <span class="coord" id="pickCoord">—</span>
+        <span class="row-inline"><button class="btn ghost" id="pickCancel" type="button">Cancel</button><button class="btn primary" id="pickDone" type="button">Use this point</button></span>
+      </div>
+      <div class="pick-attr">Place search by <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap / Nominatim</a> — needs an internet connection.</div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="vendor/leaflet.js"></script>
+  <script src="icons.js"></script>
+  <script src="builder.js"></script>
+</body>
+</html>
