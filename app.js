@@ -141,7 +141,7 @@
     })
     .catch((err) => {
       console.error("Could not load world.geojson", err);
-      toast("Map data failed to load — are you running from a server?");
+      toast("Map data failed to load, are you running from a server?");
     });
 
   function mountainIcon() {

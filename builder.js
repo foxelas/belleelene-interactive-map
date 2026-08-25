@@ -21,7 +21,7 @@
   }
 
   function starter() {
-    const P = "https://fieldnotes.example";   // placeholder links — swap for your own
+    const P = "https://fieldnotes.example";   // placeholder links, swap for your own
     return {
       config: {
         title: "Maya's Field Atlas", tagline: "fieldwork trips & the animals I met",
@@ -30,7 +30,7 @@
         cardsTitle: "From the field",
         cards: [
           { emoji: "🔬", title: "Species checklist", text: "The full running list of everything recorded on these trips, by taxon.", href: P + "/checklist", cta: "Open the checklist →" },
-          { emoji: "📓", title: "Field methods", text: "How the surveys were run — transects, camera traps and mist-netting notes.", href: P + "/methods", cta: "Read the methods →" },
+          { emoji: "📓", title: "Field methods", text: "How the surveys were run: transects, camera traps and mist-netting notes.", href: P + "/methods", cta: "Read the methods →" },
         ],
       },
       layers: [
@@ -54,7 +54,7 @@
           noun: { one: "country", many: "countries" },
           subAll: "everywhere I've done fieldwork", subYear: "fieldwork in {year}",
           items: [
-            { name: "Kenya",      years: [2021], url: P + "/trips/kenya-2021", note: "Maasai Mara — savanna mammal survey" },
+            { name: "Kenya",      years: [2021], url: P + "/trips/kenya-2021", note: "Maasai Mara - savanna mammal survey" },
             { name: "Costa Rica", years: [2022], url: P + "/trips/costa-rica-2022", note: "Cloud-forest amphibian transects" },
             { name: "Indonesia",  years: [2022], url: P + "/trips/borneo-2022", note: "Borneo canopy work" },
             { name: "Australia",  years: [2023], url: P + "/trips/australia-2023" },
@@ -184,7 +184,7 @@
          <select class="ltype">${opts}</select>
          <span class="metric">${l.type === "points"
             ? `<input type="text" class="mkey" placeholder="metric" value="${esc(l.metric && l.metric.key)}" title="e.g. elevation" /><input type="text" class="msuf" placeholder="unit" value="${esc(l.metric && l.metric.suffix)}" title="e.g. &quot; m&quot;" />`
-            : `<span class="muted">—</span>`}</span>
+            : `<span class="muted">-</span>`}</span>
          <span class="layer-actions">
            <button class="btn ghost sm" data-up title="move up">↑</button>
            <button class="btn ghost sm" data-down title="move down">↓</button>
@@ -223,7 +223,7 @@
   /* ---------- DATA ---------- */
   function populateDataSelect() {
     const sel = el("dataLayer");
-    sel.innerHTML = model.layers.map((l, i) => `<option value="${i}">${esc(l.label)} — ${l.type}</option>`).join("");
+    sel.innerHTML = model.layers.map((l, i) => `<option value="${i}">${esc(l.label)} - ${l.type}</option>`).join("");
     if (dataLayerIdx >= model.layers.length) dataLayerIdx = 0;
     sel.value = dataLayerIdx;
   }
@@ -265,7 +265,7 @@
 
   function linkCell(it) {
     if (it.links && typeof it.links === "object") {
-      const i = document.createElement("input"); i.type = "text"; i.value = "(per-year links)"; i.disabled = true; i.title = "This place has per-year links — edit data.js to change them.";
+      const i = document.createElement("input"); i.type = "text"; i.value = "(per-year links)"; i.disabled = true; i.title = "This place has per-year links, edit data.js to change them.";
       return cell(i, "tight");
     }
     return cell(txt(it.url, (v) => { it.url = v; save(); }, ""), "tight");
@@ -407,7 +407,7 @@
     fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=6&q=" + encodeURIComponent(q), { headers: { "Accept-Language": "en" } })
       .then((r) => r.json())
       .then((rows) => {
-        if (!rows.length) { box.innerHTML = '<div class="muted" style="padding:6px 4px">no matches — try a broader name, or click the map</div>'; return; }
+        if (!rows.length) { box.innerHTML = '<div class="muted" style="padding:6px 4px">no matches, try a broader name, or click the map</div>'; return; }
         box.innerHTML = "";
         rows.forEach((r) => {
           const lat = Math.round(+r.lat * 1e4) / 1e4, lng = Math.round(+r.lon * 1e4) / 1e4;
@@ -417,7 +417,7 @@
           box.appendChild(b);
         });
       })
-      .catch(() => { box.innerHTML = '<div class="muted" style="padding:6px 4px">search failed — check your connection, or click the map</div>'; });
+      .catch(() => { box.innerHTML = '<div class="muted" style="padding:6px 4px">search failed. Check your connection, or click the map</div>'; });
   }
   function zoomFor(r) {
     const t = r.addresstype || r.type || "";
@@ -452,7 +452,7 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 1000); toast("data.js downloaded");
   });
   el("copyBtn").addEventListener("click", () => {
-    navigator.clipboard.writeText(exportText()).then(() => toast("Copied to clipboard"), () => toast("Copy failed — select the text"));
+    navigator.clipboard.writeText(exportText()).then(() => toast("Copied to clipboard"), () => toast("Copy failed. Select the text"));
   });
   el("importBtn").addEventListener("click", () => el("importFile").click());
   el("importFile").addEventListener("change", () => {
