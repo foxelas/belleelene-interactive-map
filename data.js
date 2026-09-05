@@ -304,7 +304,7 @@ window.MAP = {
           "years": [
             2024
           ],
-          "url": ""
+          "url": "https://belleelene.com/2026/09/05/vaduz/"
         },
         {
           "name": "Turkey",
