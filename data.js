@@ -319,6 +319,13 @@ window.MAP = {
             2025
           ],
           "url": "https://belleelene.com/tag/san-marino/"
+        },
+        {
+          "name": "Malta",
+          "years": [
+            2026
+          ],
+           "url": ""
         }
       ]
     },
