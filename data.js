@@ -742,7 +742,7 @@ window.MAP = {
           "years": [
             2026
           ],
-          "url": ""
+          "url": "https://belleelene.com/2026/09/20/kungsleden/"
         },
         {
           "name": "Fuji",
