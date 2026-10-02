@@ -545,15 +545,44 @@
       return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[icon]}</svg>`;
     return icon ? `<span class="tab-ico">${icon}</span>` : "";
   }
-  function buildTabs() {
-    const tabsEl = $(".tabs");
-    if (!tabsEl) return;
-    tabsEl.innerHTML = LAYERS.map((l, i) =>
-      `<button class="tab" role="tab" data-tab="${l.id}" aria-selected="${i === 0}">` +
-      tabIcon(l.icon) + `${l.label || l.id}</button>`).join("");
-    tabsEl.querySelectorAll(".tab").forEach((t) =>
-      t.addEventListener("click", () => setTab(t.dataset.tab)));
-  }
+
+	function buildTabs() {
+	  const tabsEl = $(".tabs");
+	  if (!tabsEl) return;
+
+	  const urlParams = new URLSearchParams(window.location.search);
+	  const requestedTab = urlParams.get("map");
+
+	  const activeTabId = LAYERS.some(l => l.id === requestedTab)
+	    ? requestedTab
+	    : LAYERS[0].id;
+
+	  tabsEl.innerHTML = LAYERS.map((l) => {
+	    const isSelected = l.id === activeTabId;
+	    return `<button class="tab ${isSelected ? 'active' : ''}" role="tab" data-tab="${l.id}" aria-selected="${isSelected}">` +
+	      tabIcon(l.icon) + `${l.label || l.id}</button>`;
+	  }).join("");
+
+	  setTab(activeTabId);
+
+	  tabsEl.querySelectorAll(".tab").forEach((t) => {
+	    t.addEventListener("click", () => {
+	      const tabId = t.dataset.tab;
+
+	      tabsEl.querySelectorAll(".tab").forEach((btn) => {
+	        const selected = btn.dataset.tab === tabId;
+	        btn.setAttribute("aria-selected", selected ? "true" : "false");
+	        btn.classList.toggle("active", selected);
+	      });
+
+	      const url = new URL(window.location);
+	      url.searchParams.set("map", tabId);
+	      window.history.replaceState({}, "", url);
+
+	      setTab(tabId);
+	    });
+	  });
+	}
 
   function init() {
     applyConfig();
