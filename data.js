@@ -302,7 +302,7 @@ window.MAP = {
         {
           "name": "Liechtenstein",
           "years": [
-            2024
+            2023
           ],
           "url": "https://belleelene.com/2026/09/05/vaduz/"
         },
@@ -325,7 +325,7 @@ window.MAP = {
           "years": [
             2026
           ],
-           "url": ""
+           "url": "https://belleelene.com/2026/10/02/malta/"
         }
       ]
     },
@@ -1478,7 +1478,7 @@ window.MAP = {
           ],
           "links": {
             "2020": "https://belleelene.com/2020/12/04/attempting-oshima-2-a-weekend-in-izu-oshima/",
-            "2026": ""
+            "2026": "https://belleelene.com/2020/12/04/attempting-oshima-2-a-weekend-in-izu-oshima/"
           }
         },
         {
