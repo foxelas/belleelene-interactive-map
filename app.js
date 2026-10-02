@@ -119,30 +119,38 @@
     if (url) window.open(url, "_blank", "noopener");
   }
 
-  fetch("world.geojson")
-    .then((r) => r.json())
-    .then((geo) => {
-      countriesLayer = L.geoJSON(geo, {
-        style: () => ({
-          className: "country", color: getVar("--land-line"), weight: 0.7,
-          fillColor: getVar("--land"), fillOpacity: 1,
-        }),
-        onEachFeature: (feature, layer) => {
-          layer.on("mouseover", () => layer.bringToFront());
-          layer.on("click", () => {
-            const lyr = activeLayer();
-            if (lyr.type !== "regions") return;
-            const rec = regionIndex(lyr)[norm(feature.properties.name)];
-            if (rec) { layer.closeTooltip(); handleClick(rec); }
-          });
-        },
-      }).addTo(map);
-      if (activeLayer().type !== "places") paint();
-    })
-    .catch((err) => {
-      console.error("Could not load world.geojson", err);
-      toast("Map data failed to load, are you running from a server?");
-    });
+    countriesLayer = L.geoJSON(null, {
+      style: () => ({
+        className: "country", color: getVar("--land-line"), weight: 0.7,
+        fillColor: getVar("--land"), fillOpacity: 1,
+      }),
+      onEachFeature: (feature, layer) => {
+        layer.on("mouseover", () => layer.bringToFront());
+        layer.on("click", () => {
+          const lyr = activeLayer();
+          if (lyr.type !== "regions") return;
+          const rec = regionIndex(lyr)[norm(feature.properties.name)];
+          if (rec) { layer.closeTooltip(); handleClick(rec); }
+        });
+      },
+    }).addTo(map);
+
+    fetch("world.geojsonl")
+      .then((r) => r.text())
+      .then((text) => {
+        const features = text
+          .split("\n")
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0)
+          .map((line) => JSON.parse(line));
+
+        countriesLayer.addData(features);
+        if (activeLayer().type !== "places") paint();
+      })
+      .catch((err) => {
+        console.error("Could not load world.geojsonl", err);
+        toast("Map data failed to load, are you running from a server?");
+      });
 
   function mountainIcon() {
     return L.divIcon({
