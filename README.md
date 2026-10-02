@@ -82,7 +82,7 @@ window.MAP = {
 
 ## Run locally
 
-The map loads `world.geojson`, so serve over HTTP (not `file://`):
+The map loads `world.geojsonl`, so serve over HTTP (not `file://`):
 
 ```bash
 python3 -m http.server 8777
@@ -99,13 +99,13 @@ anywhere with an `<iframe>`, or point a subdomain at it with a DNS CNAME to
 
 ## What's in here
 
-| file | what it is |
-|------|------------|
-| `index.html` | the map page (tabs, slider, cards) |
+| file                                          | what it is |
+|-----------------------------------------------|------------|
+| `index.html`                                  | the map page (tabs, slider, cards) |
 | `builder.html` / `builder.js` / `builder.css` | the no-code map builder |
-| `app.js` | the map engine - reads `window.MAP`, renders every layer type (Leaflet, no tiles) |
-| `data.js` | **the map data - edit this** (`window.MAP`, `window.COUNTRY_ALIASES`) |
-| `styles.css` | all map styling (palette in `:root`) |
-| `world.geojson` | country shapes (Natural Earth 110m + split UK & micro-states, self-hosted) |
-| `vendor/leaflet.*` | bundled Leaflet |
-| `logo.png` / `icon.png` | header logo / favicon |
+| `app.js`                                      | the map engine - reads `window.MAP`, renders every layer type (Leaflet, no tiles) |
+| `data.js`                                     | **the map data - edit this** (`window.MAP`, `window.COUNTRY_ALIASES`) |
+| `styles.css`                                  | all map styling (palette in `:root`) |
+| `world.geojsonl`                              | country shapes (Natural Earth 110m + split UK & micro-states, self-hosted) |
+| `vendor/leaflet.*`                            | bundled Leaflet |
+| `logo.png` / `icon.png`                       | header logo / favicon |

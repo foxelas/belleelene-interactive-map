@@ -119,30 +119,38 @@
     if (url) window.open(url, "_blank", "noopener");
   }
 
-  fetch("world.geojson")
-    .then((r) => r.json())
-    .then((geo) => {
-      countriesLayer = L.geoJSON(geo, {
-        style: () => ({
-          className: "country", color: getVar("--land-line"), weight: 0.7,
-          fillColor: getVar("--land"), fillOpacity: 1,
-        }),
-        onEachFeature: (feature, layer) => {
-          layer.on("mouseover", () => layer.bringToFront());
-          layer.on("click", () => {
-            const lyr = activeLayer();
-            if (lyr.type !== "regions") return;
-            const rec = regionIndex(lyr)[norm(feature.properties.name)];
-            if (rec) { layer.closeTooltip(); handleClick(rec); }
-          });
-        },
-      }).addTo(map);
-      if (activeLayer().type !== "places") paint();
-    })
-    .catch((err) => {
-      console.error("Could not load world.geojson", err);
-      toast("Map data failed to load, are you running from a server?");
-    });
+    countriesLayer = L.geoJSON(null, {
+      style: () => ({
+        className: "country", color: getVar("--land-line"), weight: 0.7,
+        fillColor: getVar("--land"), fillOpacity: 1,
+      }),
+      onEachFeature: (feature, layer) => {
+        layer.on("mouseover", () => layer.bringToFront());
+        layer.on("click", () => {
+          const lyr = activeLayer();
+          if (lyr.type !== "regions") return;
+          const rec = regionIndex(lyr)[norm(feature.properties.name)];
+          if (rec) { layer.closeTooltip(); handleClick(rec); }
+        });
+      },
+    }).addTo(map);
+
+    fetch("world.geojsonl")
+      .then((r) => r.text())
+      .then((text) => {
+        const features = text
+          .split("\n")
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0)
+          .map((line) => JSON.parse(line));
+
+        countriesLayer.addData(features);
+        if (activeLayer().type !== "places") paint();
+      })
+      .catch((err) => {
+        console.error("Could not load world.geojsonl", err);
+        toast("Map data failed to load, are you running from a server?");
+      });
 
   function mountainIcon() {
     return L.divIcon({
@@ -537,15 +545,44 @@
       return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[icon]}</svg>`;
     return icon ? `<span class="tab-ico">${icon}</span>` : "";
   }
-  function buildTabs() {
-    const tabsEl = $(".tabs");
-    if (!tabsEl) return;
-    tabsEl.innerHTML = LAYERS.map((l, i) =>
-      `<button class="tab" role="tab" data-tab="${l.id}" aria-selected="${i === 0}">` +
-      tabIcon(l.icon) + `${l.label || l.id}</button>`).join("");
-    tabsEl.querySelectorAll(".tab").forEach((t) =>
-      t.addEventListener("click", () => setTab(t.dataset.tab)));
-  }
+
+	function buildTabs() {
+	  const tabsEl = $(".tabs");
+	  if (!tabsEl) return;
+
+	  const urlParams = new URLSearchParams(window.location.search);
+	  const requestedTab = urlParams.get("map");
+
+	  const activeTabId = LAYERS.some(l => l.id === requestedTab)
+	    ? requestedTab
+	    : LAYERS[0].id;
+
+	  tabsEl.innerHTML = LAYERS.map((l) => {
+	    const isSelected = l.id === activeTabId;
+	    return `<button class="tab ${isSelected ? 'active' : ''}" role="tab" data-tab="${l.id}" aria-selected="${isSelected}">` +
+	      tabIcon(l.icon) + `${l.label || l.id}</button>`;
+	  }).join("");
+
+	  setTab(activeTabId);
+
+	  tabsEl.querySelectorAll(".tab").forEach((t) => {
+	    t.addEventListener("click", () => {
+	      const tabId = t.dataset.tab;
+
+	      tabsEl.querySelectorAll(".tab").forEach((btn) => {
+	        const selected = btn.dataset.tab === tabId;
+	        btn.setAttribute("aria-selected", selected ? "true" : "false");
+	        btn.classList.toggle("active", selected);
+	      });
+
+	      const url = new URL(window.location);
+	      url.searchParams.set("map", tabId);
+	      window.history.replaceState({}, "", url);
+
+	      setTab(tabId);
+	    });
+	  });
+	}
 
   function init() {
     applyConfig();
