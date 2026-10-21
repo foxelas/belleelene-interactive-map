@@ -264,11 +264,13 @@ window.MAP = {
           "name": "Slovakia",
           "years": [
             2019,
-            2025
+            2025, 
+            2026
           ],
           "links": {
             "2019": "",
-            "2025": ""
+            "2025": "", 
+            "2026": ""
           }
         },
         {
@@ -383,7 +385,7 @@ window.MAP = {
           }
         },
         {
-          "name": "Chelmos",
+          "name": "Helmos",
           "coords": [
             37.9878,
             22.1997
@@ -392,11 +394,13 @@ window.MAP = {
           "group": "Greece",
           "years": [
             2024,
-            2025
+            2025,
+            2026
           ],
           "links": {
             "2024": "https://belleelene.com/2024/10/03/helmos/",
-            "2025": ""
+            "2025": "https://belleelene.com/tag/helmos/", 
+            "2026": "https://belleelene.com/2026/10/22/helmos-crossing/"
           }
         },
         {
@@ -541,7 +545,8 @@ window.MAP = {
           "elevation": 2495,
           "group": "Greece",
           "years": [
-            2025
+            2025, 
+            2026
           ],
           "url": "https://belleelene.com/2025/04/30/vardousia/"
         },
@@ -1206,7 +1211,8 @@ window.MAP = {
           ],
           "group": "Greece",
           "years": [
-            2024
+            2024, 
+            2026
           ],
           "url": "https://belleelene.com/2024/06/20/aegina/"
         },
