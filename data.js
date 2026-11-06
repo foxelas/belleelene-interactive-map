@@ -68,8 +68,8 @@ window.MAP = {
           "links": {
             "2015": "https://belleelene.com/2016/11/22/prague-dresden-2015-trip-gallery/",
             "2016": "https://belleelene.com/2017/03/19/memories-from-december-berlin-dresden-meissen-leipzig-prague/",
-            "2023": "",
-            "2026": ""
+            "2023": "https://belleelene.com/tag/germany/",
+            "2026": "https://belleelene.com/tag/germany/"
           }
         },
         {
@@ -80,7 +80,7 @@ window.MAP = {
             2025
           ],
           "links": {
-            "2023": "",
+            "2023": "https://belleelene.com/tag/england/",
             "2024": "https://belleelene.com/2025/10/02/cotswolds/",
             "2025": "https://belleelene.com/2025/05/13/12northengland/"
           }
@@ -108,7 +108,7 @@ window.MAP = {
             2025
           ],
           "links": {
-            "2012": "",
+            "2012": "https://belleelene.com/tag/spain/",
             "2016": "https://belleelene.com/2016/04/02/sevilla-etc/",
             "2024": "https://belleelene.com/2022/04/14/semana-santa/",
             "2025": "https://belleelene.com/2025/04/03/barcelona/"
@@ -133,7 +133,7 @@ window.MAP = {
           ],
           "links": {
             "2023": "https://belleelene.com/2023/12/08/zurich/",
-            "2025": ""
+            "2025": "https://belleelene.com/2025/09/04/bishorn/"
           }
         },
         {
@@ -151,7 +151,7 @@ window.MAP = {
             2026
           ],
           "links": {
-            "2011": "",
+            "2011": "https://belleelene.com/tag/bulgaria/",
             "2024": "https://belleelene.com/2026/04/16/sofia/",
             "2026": "https://belleelene.com/2026/05/27/urban-sofia/"
           }
@@ -170,7 +170,7 @@ window.MAP = {
             2025
           ],
           "links": {
-            "2007": "",
+            "2007": "https://belleelene.com/tag/france/",
             "2025": "https://belleelene.com/2026/07/02/paris/"
           }
         },
@@ -221,7 +221,7 @@ window.MAP = {
           "years": [
             2019
           ],
-          "url": ""
+          "url": "https://belleelene.com/tag/indonesia/"
         },
         {
           "name": "South Korea",
@@ -231,7 +231,7 @@ window.MAP = {
           ],
           "links": {
             "2018": "https://belleelene.com/2018/10/04/haedong-yonggung/",
-            "2024": ""
+            "2024": "https://belleelene.com/tag/korea/"
           }
         },
         {
@@ -258,7 +258,7 @@ window.MAP = {
           "years": [
             2026
           ],
-          "url": ""
+          "url": "https://belleelene.com/tag/sweden/"
         },
         {
           "name": "Slovakia",
@@ -285,7 +285,7 @@ window.MAP = {
           "years": [
             2018
           ],
-          "url": ""
+          "url": "https://belleelene.com/tag/macao/"
         },
         {
           "name": "Saudi Arabia",
@@ -379,7 +379,7 @@ window.MAP = {
           ],
           "links": {
             "2023": "https://belleelene.com/2023/12/21/taygetus/",
-            "2024": "",
+            "2024": "https://belleelene.com/tag/taygetos/",
             "2025": "https://belleelene.com/2025/12/18/mystras/",
             "2026": "https://belleelene.com/2026/02/12/snow-taygetus/"
           }
@@ -435,7 +435,7 @@ window.MAP = {
             2024
           ],
           "links": {
-            "2023": "",
+            "2023": "https://belleelene.com/tag/parnitha/",
             "2024": "https://belleelene.com/2024/02/22/parnitha/"
           }
         },
@@ -453,9 +453,9 @@ window.MAP = {
             2026
           ],
           "links": {
-            "2024": "",
+            "2024": "https://belleelene.com/tag/parnassos/",
             "2025": "https://belleelene.com/2025/03/22/parnassus/",
-            "2026": ""
+            "2026": "https://belleelene.com/2026/11/05/neraidospilia/"
           }
         },
         {
@@ -1187,7 +1187,7 @@ window.MAP = {
             2025
           ],
           "links": {
-            "2024": "",
+            "2024": "https://belleelene.com/tag/ikaria/",
             "2025": "https://belleelene.com/2026/04/02/ikaria/"
           }
         },
@@ -1533,7 +1533,7 @@ window.MAP = {
           "years": [
             2021
           ],
-          "url": "https://belleelene.com/2021/06/06/roadtrip-to-hokkaido-looking-for-the-natives/"
+          "url": "https://belleelene.com/tag/hokkaido/"
         },
         {
           "name": "Kyushu",
@@ -1545,7 +1545,7 @@ window.MAP = {
           "years": [
             2022
           ],
-          "url": ""
+          "url": "https://belleelene.com/tag/kyushu/"
         }
       ]
     },
