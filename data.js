@@ -159,7 +159,8 @@ window.MAP = {
         {
           "name": "Belgium",
           "years": [
-            2024
+            2024,
+            2026
           ],
           "url": "https://belleelene.com/2025/12/06/belgium/"
         },
@@ -548,7 +549,10 @@ window.MAP = {
             2025, 
             2026
           ],
-          "url": "https://belleelene.com/2025/04/30/vardousia/"
+          "links": {
+            "2025": "https://belleelene.com/2025/04/30/vardousia/",
+            "2026": "https://belleelene.com/2026/11/17/traverse-vardousia/"
+          }
         },
         {
           "name": "Erymanthos",
